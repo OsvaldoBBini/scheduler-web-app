@@ -16,7 +16,8 @@ export async function handler(event) {
           startsAt,
           endsAt,
           appointmentType,
-          confirmed
+          confirmed,
+          appointmentPayment
         } = body;
 
   if ([appointmentDate, name, phoneNumber, startsAt, endsAt, appointmentType].includes(undefined)) {
@@ -31,9 +32,8 @@ export async function handler(event) {
   const getDynamoCommand = new QueryCommand({
     TableName: "SAppointments",
     ScanIndexForward: true,
-    IndexName: "AppointmentsByDate",
-    KeyConditionExpression: "#appointmentDate = :appointmentDate",
-    FilterExpression: "#userId = :userId",
+    KeyConditionExpression: "#userId = :userId",
+    FilterExpression: "#appointmentDate = :appointmentDate",
     ExpressionAttributeValues: {
       ":appointmentDate": {
         "S": appointmentDate
@@ -58,7 +58,7 @@ export async function handler(event) {
 
   if(verifyAppointments.length) {
     return {
-      statusCode: 404,
+      statusCode: 409,
       body: JSON.stringify({
         error: 'An appointment already exists for this date.'
       }),
@@ -76,7 +76,8 @@ export async function handler(event) {
       startsAt: { N: startsAt },
       endsAt: { N: endsAt },
       appointmentType: { S: appointmentType },
-      confirmed: { BOOL: confirmed }
+      confirmed: { BOOL: confirmed },
+      appointmentPayment: { N: appointmentPayment }
     },
   });
 
