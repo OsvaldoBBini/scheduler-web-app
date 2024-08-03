@@ -18,7 +18,7 @@ export function createLocalDynamoClient() {
 const table = {
   TableName: 'SAppointments',
   KeySchema: [
-    { AttributeName: 'userId', KeyType: 'HASH' }, // Partition key
+    { AttributeName: 'tenantId', KeyType: 'HASH' }, // Partition key
     { AttributeName: 'appointmentId', KeyType: 'RANGE' } // Sort key
   ],
   AttributeDefinitions: [
