@@ -1,5 +1,5 @@
 import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
-import { v4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 
 export const clients = {
   dynamoClient: new DynamoDBClient(),
@@ -74,11 +74,12 @@ export async function handler(event) {
   };
   
   try {
+    const appointmentId = randomUUID();
     const putDynamoCommand = new PutItemCommand({
       TableName: 'SAppointments',
       Item: {
         userId: { S: userId },
-        appointmentId: { S: v4() },
+        appointmentId: { S: appointmentId },
         appointmentDate: { S: appointmentDate },
         name: { S: name },
         phoneNumber: { S: phoneNumber },

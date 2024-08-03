@@ -2,7 +2,8 @@ import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import { handler, clients } from './index.mjs';
 import { createLocalDynamoClient, deleteTableCommand, createTableCommand } from '../../utils/createLocalDynamoClient.mjs';
 
-describe('Create Appointment', () => {
+
+describe('create', () => {
 
   beforeEach(async () => {
     clients.dynamoClient = createLocalDynamoClient();
@@ -20,7 +21,7 @@ describe('Create Appointment', () => {
       userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'Osvaldo Bazzan',
-      phoneNumber: '55984632951', 
+      phoneNumber: '9999999999', 
       startsAt: 660,
       endsAt: 690,
       appointmentType: 'Curso',
@@ -40,7 +41,7 @@ describe('Create Appointment', () => {
       userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'Osvaldo Bazzan',
-      phoneNumber: '55984632951',
+      phoneNumber: '9999999999',
       appointmentType: 'Curso',
       confirmed: false,
       appointmentPayment: 50
@@ -58,7 +59,7 @@ describe('Create Appointment', () => {
       userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'John Doe',
-      phoneNumber: '55984632951', 
+      phoneNumber: '9999999999', 
       startsAt: 660,
       endsAt: 690,
       appointmentType: 'Curso',
@@ -73,7 +74,7 @@ describe('Create Appointment', () => {
       userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'John Doe',
-      phoneNumber: '55984632951', 
+      phoneNumber: '9999999999', 
       startsAt: 670,
       endsAt: 680,
       appointmentType: 'Curso',
@@ -86,7 +87,7 @@ describe('Create Appointment', () => {
       userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'John Doe',
-      phoneNumber: '55984632951', 
+      phoneNumber: '9999999999', 
       startsAt: 640,
       endsAt: 680,
       appointmentType: 'Curso',

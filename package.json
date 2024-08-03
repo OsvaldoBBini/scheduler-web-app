@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "vitest"
+    "test:show": "vitest -t show",
+    "test:create": "vitest -t create",
+    "test:delete": "vitest -t delete"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",

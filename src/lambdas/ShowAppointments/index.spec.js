@@ -3,7 +3,7 @@ import { handler, clients } from './index.mjs';
 import { createLocalDynamoClient, deleteTableCommand, createTableCommand, initialData } from '../../utils/createLocalDynamoClient.mjs';
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 
-describe('Show Appointments', () => {
+describe('show', () => {
 
   beforeEach(async () => {
     clients.dynamoClient = createLocalDynamoClient();
