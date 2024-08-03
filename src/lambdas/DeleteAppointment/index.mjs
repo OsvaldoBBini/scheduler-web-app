@@ -1,8 +1,5 @@
-import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb'
-
-export const clients = {
-  dynamoClient: new DynamoDBClient(),
-};
+import { DeleteItemCommand } from '@aws-sdk/client-dynamodb'
+import { clients } from '../../lib/Cients.mjs';
 
 export async function handler(event) {
   

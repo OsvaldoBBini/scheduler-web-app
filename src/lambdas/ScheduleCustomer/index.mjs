@@ -1,9 +1,6 @@
-import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
+import { PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
 import { randomUUID } from 'node:crypto';
-
-export const clients = {
-  dynamoClient: new DynamoDBClient(),
-};
+import { clients } from '../../lib/Cients.mjs'
 
 export async function handler(event) {
 

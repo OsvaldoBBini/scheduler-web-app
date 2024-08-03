@@ -1,7 +1,8 @@
 import { expect, it, describe, beforeEach, afterEach } from 'vitest'
-import { handler, clients } from './index.mjs';
+import { handler } from './index.mjs';
 import { createLocalDynamoClient, deleteTableCommand, createTableCommand, initialData } from '../../utils/createLocalDynamoClient.mjs';
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { clients } from '../../lib/Cients.mjs';
 
 describe('delete', () => {
 

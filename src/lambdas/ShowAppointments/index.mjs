@@ -1,8 +1,5 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb'
-
-export const clients = {
-  dynamoClient: new DynamoDBClient(),
-};
+import { QueryCommand } from '@aws-sdk/client-dynamodb'
+import { clients } from '../../lib/Cients.mjs';
 
 export async function handler(event) {
   
