@@ -5,9 +5,8 @@ export const clients = {
 };
 
 export async function handler(event) {
-
-  const { queryStringParams } = JSON.parse(event);
-  const { userId, date } = queryStringParams;
+  
+  const { userId, appointmentDate } = event.queryStringParameters;
 
   const getDynamoCommand = new QueryCommand({
     TableName: "SAppointments",
@@ -16,7 +15,7 @@ export async function handler(event) {
     FilterExpression: "#appointmentDate = :appointmentDate",
     ExpressionAttributeValues: {
       ":appointmentDate": {
-        "S": date
+        "S": appointmentDate
       },
       ":userId": {
         "S": userId

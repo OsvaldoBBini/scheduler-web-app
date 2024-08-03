@@ -7,8 +7,6 @@ export const clients = {
 
 export async function handler(event) {
 
-  const { body } = JSON.parse(event);
-
   const { userId,
           appointmentDate,
           name,
@@ -17,8 +15,7 @@ export async function handler(event) {
           endsAt,
           appointmentType,
           confirmed,
-          appointmentPayment
-        } = body;
+          appointmentPayment} = JSON.parse(event.body);
 
   if ([appointmentDate, name, phoneNumber, startsAt, endsAt, appointmentType].includes(undefined)) {
     return {
