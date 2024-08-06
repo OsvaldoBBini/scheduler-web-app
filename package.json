@@ -6,7 +6,8 @@
   "scripts": {
     "test:show": "vitest -t show",
     "test:create": "vitest -t create",
-    "test:delete": "vitest -t delete"
+    "test:delete": "vitest -t delete",
+    "test:update": "vitest -t update"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
@@ -16,8 +17,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.620.0",
-    "@aws-sdk/client-s3": "^3.620.0",
-    "aws-sdk": "^2.1664.0",
-    "uuid": "^10.0.0"
+    "aws-sdk": "^2.1664.0"
   }
 }
