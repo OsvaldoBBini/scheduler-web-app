@@ -35,3 +35,12 @@ jobs:
 
     - name: Run show test
       run: yarn test:show
+
+    - name: Run create test
+      run: yarn test:create
+
+    - name: Run update test
+      run: yarn test:update
+
+    - name: Run delete test
+      run: yarn test:delete
