@@ -22,7 +22,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20.12.2' # Specify your Node.js version here
+        node-version: '20.12.2'
 
     - name: Install dependencies
       run: yarn
@@ -33,11 +33,11 @@ jobs:
         export AWS_ACCESS_KEY_ID=2uz49p
         export AWS_SECRET_ACCESS_KEY=c7g4g
 
-    - name: Run show test
-      run: yarn test:show
-
     - name: Run create test
       run: yarn test:create
+    
+    - name: Run show test
+      run: yarn test:show
 
     - name: Run update test
       run: yarn test:update
