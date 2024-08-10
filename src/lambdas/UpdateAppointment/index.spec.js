@@ -3,7 +3,7 @@ import { handler } from './index.mjs';
 
 describe('update', () => {
 
-  it('Should not be able to update an appointment', async () => {
+  it('Should be able to update an appointment', async () => {
 
     const event = {
       queryStringParameters: { userId: '1234567' },
@@ -33,8 +33,8 @@ describe('update', () => {
       appointmentDate: '23/05/2050',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
-      startsAt: 120,
-      endsAt: 180,
+      startsAt: 60,
+      endsAt: 120,
       appointmentType: 'Express',
       confirmed: false,
       appointmentPayment: 50
