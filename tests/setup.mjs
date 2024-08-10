@@ -9,9 +9,7 @@ beforeAll(async () => {
   const listTableCommand = new ListTablesCommand({})
   const { TableNames } = await clients.dynamoClient.send(listTableCommand);
 
-  console.log(TableNames);
-
-  if (TableNames.length === 0) {
+  if (!TableNames.length === 0) {
     await clients.dynamoClient.send(createAppointmentsTableCommand);
   }
  
@@ -22,10 +20,12 @@ beforeEach(async () => {
     clients.dynamoClient.send(new PutItemCommand(item));
   }));
 
-  const scanCommand = new ScanCommand({TableName: 'SAppointments'});
-  const allItems = await clients.dynamoClient.send(scanCommand); 
+  
 
-  return async () => await Promise.all(allItems.Items.map((item) => {
+  return async () => {
+    const scanCommand = new ScanCommand({TableName: 'SAppointments'});
+    const allItems = await clients.dynamoClient.send(scanCommand); 
+    await Promise.all(allItems.Items.map((item) => {
     const command = {
       TableName: 'SAppointments',
       Key: {
@@ -35,6 +35,6 @@ beforeEach(async () => {
     }
 
     clients.dynamoClient.send(new DeleteItemCommand(command));
-  }));
+    }))};
 });
 
