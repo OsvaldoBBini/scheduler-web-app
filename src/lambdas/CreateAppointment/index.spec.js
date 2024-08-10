@@ -21,6 +21,8 @@ describe('create', () => {
 
     const { statusCode } = await handler(event);
 
+    
+
     expect(statusCode).toBe(204);
   });
 
@@ -56,8 +58,6 @@ describe('create', () => {
       confirmed: false,
       appointmentPayment: 50
     })};
-    
-    await handler(event);
 
     const { statusCode } = await handler(event);
 

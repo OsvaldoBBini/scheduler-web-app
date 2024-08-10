@@ -44,13 +44,18 @@ export async function handler(event) {
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-      const verifyAppointments = appointments.Items.filter(appointment => 
-        (appointment.startsAt.N < startsAt < appointment.endsAt.N) || 
-        (appointment.startsAt.N < endsAt < appointment.endsAt.N) || 
-        (appointment.startsAt.N === startsAt) ||
-        (appointment.endsAt.N === endsAt)
-      );
-    
+      const verifyAppointments = appointments.Items.filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
+        const start = Number(startN);
+        const end = Number(endN);
+      
+        const newAppointmentOverlaps = 
+          (startsAt >= start && startsAt < end) ||   
+          (endsAt > start && endsAt <= end) ||       
+          (startsAt <= start && endsAt >= end);     
+
+        return newAppointmentOverlaps;
+      });
+
       if(verifyAppointments.length) {
         return {
           statusCode: 409,

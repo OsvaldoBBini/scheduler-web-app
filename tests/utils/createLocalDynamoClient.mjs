@@ -1,4 +1,4 @@
-import { DynamoDBClient, CreateTableCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb"
+import { DynamoDBClient, CreateTableCommand } from "@aws-sdk/client-dynamodb"
 
 export function createLocalDynamoClient() {
 
@@ -15,7 +15,7 @@ export function createLocalDynamoClient() {
   return clients;
 };
 
-const table = {
+const SAtable = {
   TableName: 'SAppointments',
   KeySchema: [
     { AttributeName: 'userId', KeyType: 'HASH' }, // Partition key
@@ -81,9 +81,39 @@ export const initialData = [
       appointmentPayment: { N: 120 }
     },
   },
+  {
+    TableName: 'SAppointments',
+    Item: 
+    {
+      userId: { S: '1234567' },
+      appointmentId: { S: '0000002' },
+      appointmentDate: { S: '23/05/2050' },
+      name: { S: 'John Doe' },
+      phoneNumber: { S: '999999999' },
+      startsAt: { N: 120 },
+      endsAt: { N: 180 },
+      appointmentType: { S: 'Express' },
+      confirmed: { S: false },
+      appointmentPayment: { N: 120 }
+    },
+  },
+  {
+    TableName: 'SAppointments',
+    Item: 
+    {
+      userId: { S: '12345678' },
+      appointmentId: { S: '0000001' },
+      appointmentDate: { S: '23/05/2050' },
+      name: { S: 'John Doe' },
+      phoneNumber: { S: '999999999' },
+      startsAt: { N: 180 },
+      endsAt: { N: 240 },
+      appointmentType: { S: 'Express' },
+      confirmed: { S: false },
+      appointmentPayment: { N: 120 }
+    },
+  },
 ]
 
-
-export const deleteTableCommand = new DeleteTableCommand({TableName: table.TableName});
-export const createTableCommand = new CreateTableCommand(table);
+export const createAppointmentsTableCommand = new CreateTableCommand(SAtable);
 

@@ -33,18 +33,6 @@ jobs:
         export AWS_ACCESS_KEY_ID=2uz49p
         export AWS_SECRET_ACCESS_KEY=c7g4g
 
-    - name: Run create test
+    - name: Run tests
       run: |
-        yarn test:create
-
-    - name: Run update test
-      run: |
-        yarn test:update 
-
-    - name: Run show test
-      run: |
-        yarn test:show 
-
-    - name: Run delete test
-      run: |
-        yarn test:delete
+        yarn test

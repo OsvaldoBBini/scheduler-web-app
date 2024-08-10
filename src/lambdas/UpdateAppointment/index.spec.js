@@ -12,8 +12,8 @@ describe('update', () => {
       appointmentDate: '23/05/2050',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
-      startsAt: 660,
-      endsAt: 690,
+      startsAt: 240,
+      endsAt: 300,
       appointmentType: 'Express',
       confirmed: true,
       appointmentPayment: 50

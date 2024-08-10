@@ -1,16 +1,38 @@
-import { beforeEach } from 'vitest';
-import { createLocalDynamoClient, deleteTableCommand, createTableCommand, initialData } from './utils/createLocalDynamoClient.mjs';
-import { PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { beforeAll, beforeEach } from 'vitest';
+import { createAppointmentsTableCommand, createLocalDynamoClient, initialData } from './utils/createLocalDynamoClient.mjs';
+import { DeleteItemCommand, ListTablesCommand, PutItemCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
 import { clients } from '../src/lambdas/lib/Cients.mjs';
 
-beforeEach(async () => {
+beforeAll(async () => {
   clients.dynamoClient = createLocalDynamoClient();
-  await clients.dynamoClient.send(createTableCommand);
 
+  const listTableCommand = new ListTablesCommand({})
+  const { TableNames } = await clients.dynamoClient.send(listTableCommand);
+
+  if (TableNames.length === 0) {
+    await clients.dynamoClient.send(createAppointmentsTableCommand);
+  }
+ 
+});
+
+beforeEach(async () => {
   await Promise.all(initialData.map((item) => {
     clients.dynamoClient.send(new PutItemCommand(item));
   }));
 
-  return async () => await clients.dynamoClient.send(deleteTableCommand);
+  const scanCommand = new ScanCommand({TableName: 'SAppointments'});
+  const allItems = await clients.dynamoClient.send(scanCommand); 
+
+  return async () => await Promise.all(allItems.Items.map((item) => {
+    const command = {
+      TableName: 'SAppointments',
+      Key: {
+        userId: { S: item.userId.S },
+        appointmentId: { S: item.appointmentId.S }
+      }
+    }
+
+    clients.dynamoClient.send(new DeleteItemCommand(command));
+  }));
 });
 
