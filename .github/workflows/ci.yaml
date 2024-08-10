@@ -11,18 +11,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-
-      dynamodb:
-        image: amazon/dynamodb-local
-        ports:
-          - 8000:8000
-        options: -jar DynamoDBLocal.jar -inMemory -sharedDb
-
     steps:
 
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Setup local DynamoDB
+        run: docker run -d -p 8000:8000 amazon/dynamodb-local
       
     - name: Set up Node.js
       uses: actions/setup-node@v3
