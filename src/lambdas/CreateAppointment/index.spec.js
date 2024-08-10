@@ -1,6 +1,6 @@
 import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import { handler } from './index.mjs';
-import { clients } from '../../lib/Cients.mjs';
+import { clients } from '../lib/Cients.mjs';
 import { createLocalDynamoClient, deleteTableCommand, createTableCommand } from '../../utils/createLocalDynamoClient.mjs';
 
 

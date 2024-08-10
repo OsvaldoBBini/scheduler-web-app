@@ -1,6 +1,6 @@
 import { expect, it, describe, beforeEach, afterEach } from 'vitest'
 import { handler } from './index.mjs';
-import { clients } from '../../lib/Cients.mjs';
+import { clients } from '../lib/Cients.mjs';
 import { createLocalDynamoClient, deleteTableCommand, createTableCommand } from '../../utils/createLocalDynamoClient.mjs';
 import { initialData } from '../../utils/createLocalDynamoClient.mjs';
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
@@ -20,7 +20,7 @@ describe('update', () => {
     await clients.dynamoClient.send(deleteTableCommand);
   })
 
-  it('Should not be able to create an appointment', async () => {
+  it('Should not be able to update an appointment', async () => {
 
     const event = {
       queryStringParameters: { userId: '1234567' },

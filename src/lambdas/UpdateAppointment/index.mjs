@@ -1,5 +1,5 @@
 import { QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb'
-import { clients } from '../../lib/Cients.mjs'
+import { clients } from '../lib/Cients.mjs'
 
 export async function handler(event) {
 
