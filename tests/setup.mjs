@@ -20,8 +20,6 @@ beforeEach(async () => {
     clients.dynamoClient.send(new PutItemCommand(item));
   }));
 
-  
-
   return async () => {
     const scanCommand = new ScanCommand({TableName: 'SAppointments'});
     const allItems = await clients.dynamoClient.send(scanCommand); 
