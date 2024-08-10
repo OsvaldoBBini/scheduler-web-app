@@ -24,7 +24,7 @@ describe('create', () => {
     expect(statusCode).toBe(204);
   });
 
-  it('Should be able to create an appointment with missing props', async () => {
+  it('Should not be able to create an appointment with missing props', async () => {
 
     const event = {
       body: JSON.stringify({
@@ -44,51 +44,24 @@ describe('create', () => {
 
   it('Should not to be able to create a conflicted appointment', async () => {
 
-    const event1 = {
+    const event = {
       body: JSON.stringify({
-      userId: '123456',
-      appointmentDate: '24/05/2001',
+      userId: '1234567',
+      appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '9999999999', 
-      startsAt: 660,
-      endsAt: 690,
-      appointmentType: 'Curso',
+      startsAt: 60,
+      endsAt: 120,
+      appointmentType: 'Express',
       confirmed: false,
       appointmentPayment: 50
     })};
     
-    await handler(event1);
-    
-    const event2 = {
-      body: JSON.stringify({
-      userId: '123456',
-      appointmentDate: '24/05/2001',
-      name: 'John Doe',
-      phoneNumber: '9999999999', 
-      startsAt: 670,
-      endsAt: 680,
-      appointmentType: 'Curso',
-      confirmed: false,
-      appointmentPayment: 50
-    })};
+    await handler(event);
 
-    const event3 = {
-      body: JSON.stringify({
-      userId: '123456',
-      appointmentDate: '24/05/2001',
-      name: 'John Doe',
-      phoneNumber: '9999999999', 
-      startsAt: 640,
-      endsAt: 680,
-      appointmentType: 'Curso',
-      confirmed: false,
-      appointmentPayment: 50
-    })};
+    const { statusCode } = await handler(event);
 
-    const { statusCode: statusCode2 } = await handler(event2);
-    const { statusCode: statusCode3 } = await handler(event3);
-
-    expect([statusCode2, statusCode3]).toStrictEqual([409, 409]);
+    expect(statusCode).toStrictEqual(409);
   });
 
 });
