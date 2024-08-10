@@ -9,7 +9,7 @@ beforeAll(async () => {
   const listTableCommand = new ListTablesCommand({})
   const { TableNames } = await clients.dynamoClient.send(listTableCommand);
 
-  if (!TableNames.length === 0) {
+  if (TableNames.length === 0) {
     await clients.dynamoClient.send(createAppointmentsTableCommand);
   }
  
