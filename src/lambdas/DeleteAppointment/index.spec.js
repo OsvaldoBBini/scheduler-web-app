@@ -10,9 +10,9 @@ describe('delete', () => {
     clients.dynamoClient = createLocalDynamoClient();
     await clients.dynamoClient.send(createTableCommand);
     
-    initialData.map(async (item) => {
-      await clients.dynamoClient.send(new PutItemCommand(item));
-    })
+    await Promise.all(initialData.map((item) => {
+      clients.dynamoClient.send(new PutItemCommand(item));
+    }));
   });
   
   afterEach(async () => {
