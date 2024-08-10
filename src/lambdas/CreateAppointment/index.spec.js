@@ -1,19 +1,8 @@
-import { expect, it, describe, beforeEach, afterEach } from 'vitest'
+import { expect, it, describe } from 'vitest'
 import { handler } from './index.mjs';
-import { clients } from '../lib/Cients.mjs';
-import { createLocalDynamoClient, deleteTableCommand, createTableCommand } from '../../utils/createLocalDynamoClient.mjs';
 
 
 describe('create', () => {
-
-  beforeEach(async () => {
-    clients.dynamoClient = createLocalDynamoClient();
-    await clients.dynamoClient.send(createTableCommand);
-  });
-  
-  afterEach(async () => {
-    await clients.dynamoClient.send(deleteTableCommand);
-  })
 
   it('Should be able to create an appointment', async () => {
 

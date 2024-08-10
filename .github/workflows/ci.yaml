@@ -36,19 +36,19 @@ jobs:
     - name: Run create test
       run: |
         yarn test:create
-        $?
       continue-on-error: true 
 
     - name: Run update test
       run: |
         yarn test:update
-        $?
       continue-on-error: true 
 
     - name: Run show test
-      run: yarn test:show
+      run: |
+        yarn test:show
       continue-on-error: true 
 
     - name: Run delete test
-      run: yarn test:delete
+      run: |
+        yarn test:delete
       continue-on-error: true 
