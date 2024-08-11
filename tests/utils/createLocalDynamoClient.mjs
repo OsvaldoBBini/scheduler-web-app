@@ -1,4 +1,4 @@
-import { DynamoDBClient, CreateTableCommand } from "@aws-sdk/client-dynamodb"
+import { DynamoDBClient, CreateTableCommand, DeleteTableCommand } from "@aws-sdk/client-dynamodb"
 
 export function createLocalDynamoClient() {
 
@@ -117,3 +117,4 @@ export const initialData = [
 
 export const createAppointmentsTableCommand = new CreateTableCommand(SAtable);
 
+export const deleteAppointmentsTableCommand = new DeleteTableCommand({TableName: 'SAppointments'});

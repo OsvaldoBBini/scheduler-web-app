@@ -30,9 +30,21 @@ jobs:
     - name: Set up DynamoDB (for AWS SDKs)
       run: |
         export DYNAMODB_ENDPOINT=http://localhost:8000
-        export AWS_ACCESS_KEY_ID=2uz49p
-        export AWS_SECRET_ACCESS_KEY=c7g4g
+        export AWS_ACCESS_KEY_ID= ${{ secrets.KEY_ID }}
+        export AWS_SECRET_ACCESS_KEY= ${{ secrets.ACCESS_KEY }}
 
-    - name: Run tests
+    - name: Run show tests
       run: |
-        yarn test
+        yarn test:show
+    
+    - name: Run create tests
+      run: |
+        yarn test:create
+
+    - name: Run update tests
+      run: |
+        yarn test:update
+
+    - name: Run delete tests
+      run: |
+        yarn test:delete

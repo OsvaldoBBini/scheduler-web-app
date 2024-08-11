@@ -44,7 +44,9 @@ export async function handler(event) {
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-      const verifyAppointments = appointments.Items.filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
+      const verifyAppointments = appointments.Items
+      .filter(({ appointmentId: {S: id} }) => id !== appointmentId)
+      .filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
         const start = Number(startN);
         const end = Number(endN);
       
