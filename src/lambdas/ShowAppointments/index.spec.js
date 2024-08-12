@@ -7,7 +7,7 @@ describe('show', () => {
 
     const event = {
       queryStringParameters: {
-        userId: '1234567',
+        userId: '123457',
         appointmentDate: '23/05/2050'
       }
     };
@@ -15,7 +15,7 @@ describe('show', () => {
     const { body } = await handler(event);
     const appointments = JSON.parse(body);
 
-    expect(appointments.Count).toBe(2);
+    expect(appointments.Count).toBe(1);
   });
 
 });

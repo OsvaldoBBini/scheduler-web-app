@@ -7,10 +7,10 @@ describe('delete', () => {
 
     const event = {
       queryStringParameters: {
-        userId: '12345678',
+        userId: '123459',
       },
       body: JSON.stringify({
-        appointmentId: '0000003'
+        appointmentId: '0000001'
       })
     };
 

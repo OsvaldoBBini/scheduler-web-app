@@ -33,18 +33,6 @@ jobs:
         export AWS_ACCESS_KEY_ID=${{ secrets.KEY_ID }}
         export AWS_SECRET_ACCESS_KEY=${{ secrets.ACCESS_KEY }}
 
-    - name: Run show tests
+    - name: Run tests
       run: |
-        yarn test:show
-    
-    - name: Run create tests
-      run: |
-        yarn test:create
-
-    - name: Run update tests
-      run: |
-        yarn test:update
-
-    - name: Run delete tests
-      run: |
-        yarn test:delete
+        yarn test

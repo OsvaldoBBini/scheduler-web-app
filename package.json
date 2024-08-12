@@ -4,10 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test:show": "vitest -t show",
-    "test:create": "vitest -t create",
-    "test:delete": "vitest -t delete",
-    "test:update": "vitest -t update",
     "test": "vitest"
   },
   "devDependencies": {
