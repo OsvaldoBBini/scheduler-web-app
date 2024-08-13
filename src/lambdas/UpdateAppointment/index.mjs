@@ -1,5 +1,5 @@
 import { QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb'
-import { clients } from '../lib/Cients.mjs'
+import { clients } from '../lib/Clients.mjs'
 
 export async function handler(event) {
 
@@ -102,7 +102,7 @@ export async function handler(event) {
     console.log({
       user: userId,
       data: new Date(),
-      message: error.meassage,
+      message: error.message,
       name: error.name,
       instanceType: error.constructor.name
     });
