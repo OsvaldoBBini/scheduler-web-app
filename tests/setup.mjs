@@ -1,8 +1,9 @@
 import { beforeAll } from 'vitest';
-import { createAppointmentsTableCommand, createLocalDynamoClient, initialData } from './utils/createLocalDynamoClient.mjs';
+import { createLocalDynamoClient } from './utils/createLocalDynamoClient.mjs';
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { clients } from '../src/lambdas/lib/Cients.mjs';
-
+import { createAppointmentsTableCommand } from './utils/createSAppointmentsTable.mjs';
+import { initialData } from './utils/initialData.mjs';
 
 beforeAll(async () => {
   clients.dynamoClient = createLocalDynamoClient();
