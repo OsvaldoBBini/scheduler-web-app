@@ -3,17 +3,13 @@ import { createAppointmentsTableCommand, createLocalDynamoClient, initialData } 
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { clients } from '../src/lambdas/lib/Cients.mjs';
 
-clients.dynamoClient = createLocalDynamoClient();
 
-const createTables = async () => {
+beforeAll(async () => {
+  clients.dynamoClient = createLocalDynamoClient();
+  
   try {
     await clients.dynamoClient.send(createAppointmentsTableCommand);
   } catch { /* empty */ }
-}
-
-createTables();
-
-beforeAll(async () => {
 
   await Promise.all(initialData.map((item) => {
     clients.dynamoClient.send(new PutItemCommand(item));
