@@ -1,11 +1,11 @@
-import { QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb'
-import { clients } from '../lib/Clients.mjs'
+import { PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
+import { randomUUID } from 'node:crypto';
+import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
   const { userId } = event.queryStringParameters;
   const { appointmentDate,
-          appointmentId,
           name,
           phoneNumber,
           startsAt,
@@ -44,9 +44,7 @@ export async function handler(event) {
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-      const verifyAppointments = appointments.Items
-      .filter(({ appointmentId: {S: id} }) => id !== appointmentId)
-      .filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
+      const verifyAppointments = appointments.Items.filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
         const start = Number(startN);
         const end = Number(endN);
       
@@ -57,7 +55,7 @@ export async function handler(event) {
 
         return newAppointmentOverlaps;
       });
-    
+
       if(verifyAppointments.length) {
         return {
           statusCode: 409,
@@ -67,37 +65,24 @@ export async function handler(event) {
         };
       };
 
-    const putDynamoCommand = new UpdateItemCommand({
+    const appointmentId = randomUUID();
+    const putDynamoCommand = new PutItemCommand({
       TableName: 'SAppointments',
-      Key: {
+      Item: {
         userId: { S: userId },
-        appointmentId: { S: appointmentId }
+        appointmentId: { S: appointmentId },
+        appointmentDate: { S: appointmentDate },
+        name: { S: name },
+        phoneNumber: { S: phoneNumber },
+        startsAt: { N: startsAt },
+        endsAt: { N: endsAt },
+        appointmentType: { S: appointmentType },
+        confirmed: { BOOL: confirmed },
+        appointmentPayment: { N: appointmentPayment }
       },
-      ExpressionAttributeNames: {
-        "#appointmentDate": "appointmentDate",
-        "#name": "name",
-        "#phoneNumber": "phoneNumber",
-        "#startsAt": "startsAt",
-        "#endsAt": "endsAt",
-        "#appointmentType": "appointmentType",
-        "#confirmed": "confirmed",
-        "#appointmentPayment": "appointmentPayment",
-      },
-      ExpressionAttributeValues: {
-        ":appointmentDate": { S: appointmentDate },
-        ":name": { S: name },
-        ":phoneNumber": { S: phoneNumber },
-        ":startsAt": { N: startsAt },
-        ":endsAt": { N: endsAt },
-        ":appointmentType": { S: appointmentType },
-        ":confirmed": { BOOL: confirmed },
-        ":appointmentPayment": { N: appointmentPayment }
-      },
-      UpdateExpression: "SET #appointmentDate = :appointmentDate, #name = :name, #phoneNumber = :phoneNumber, #startsAt = :startsAt, #endsAt = :endsAt, #appointmentType = :appointmentType, #confirmed = :confirmed, #appointmentPayment = :appointmentPayment"
     });
   
     await clients.dynamoClient.send(putDynamoCommand);
-    
   } catch (error) {
     console.log({
       user: userId,

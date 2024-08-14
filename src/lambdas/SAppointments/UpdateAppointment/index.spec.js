@@ -6,9 +6,8 @@ describe('update', () => {
   it('Should be able to update an appointment', async () => {
 
     const event = {
-      queryStringParameters: { userId: '123458' },
+      queryStringParameters: { userId: '123458', appointmentId: '0000001'},
       body: JSON.stringify({
-      appointmentId: '0000001',
       appointmentDate: '23/05/2050',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
@@ -27,9 +26,8 @@ describe('update', () => {
   it('Should not be able to update an appointment', async () => {
 
     const event = {
-      queryStringParameters: { userId: '123458' },
+      queryStringParameters: { userId: '123458', appointmentId: '0000003'},
       body: JSON.stringify({
-      appointmentId: '0000003',
       appointmentDate: '23/05/2050',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 

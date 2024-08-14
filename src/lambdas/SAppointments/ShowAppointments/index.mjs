@@ -1,5 +1,5 @@
 import { QueryCommand } from '@aws-sdk/client-dynamodb'
-import { clients } from '../lib/Clients.mjs';
+import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   

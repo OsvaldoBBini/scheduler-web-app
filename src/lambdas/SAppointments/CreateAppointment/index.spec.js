@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest'
 import { handler } from './index.mjs';
-import { generateRandomNumber } from '../../../tests/utils/generateRandomNumber.mjs';
+import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
 
 
 describe('create', () => {
@@ -12,8 +12,8 @@ describe('create', () => {
     const randomYear = generateRandomNumber(2024, 2040);
 
     const event = {
+      queryStringParameters: { userId: '123456' },
       body: JSON.stringify({
-      userId: '123456',
       appointmentDate: `${randomDay}/${randomMonth}/${randomYear}`,
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
@@ -32,8 +32,8 @@ describe('create', () => {
   it('Should not be able to create an appointment with missing props', async () => {
 
     const event = {
+      queryStringParameters: { userId: '123456' },
       body: JSON.stringify({
-      userId: '123456',
       appointmentDate: '24/05/2001',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999',
@@ -50,8 +50,8 @@ describe('create', () => {
   it('Should not to be able to create a conflicted appointment', async () => {
 
     const event = {
+      queryStringParameters: { userId: '123456' },
       body: JSON.stringify({
-      userId: '123456',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '9999999999', 
