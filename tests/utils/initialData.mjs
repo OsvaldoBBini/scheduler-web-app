@@ -1,4 +1,4 @@
-export const initialData = [
+export const SAinitialData = [
   {
     TableName: 'SAppointments',
     Item: 
