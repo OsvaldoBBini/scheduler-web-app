@@ -1,7 +1,7 @@
 import { expect, it, describe } from 'vitest'
 import { handler } from './index.mjs';
 
-describe('show', () => {
+describe('show SA', () => {
 
   it('Should be able to show appointments', async () => {
 

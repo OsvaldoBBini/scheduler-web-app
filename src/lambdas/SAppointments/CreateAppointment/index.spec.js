@@ -3,7 +3,7 @@ import { handler } from './index.mjs';
 import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
 
 
-describe('create', () => {
+describe('create SA', () => {
 
   it('Should be able to create an appointment', async () => {
 
