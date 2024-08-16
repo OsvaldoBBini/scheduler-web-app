@@ -25,9 +25,10 @@ describe('create AT', () => {
         appointmentTypeName: 'Curso'
     })};
 
-    const { statusCode } = await handler(event);
+    const { body } = await handler(event);
+    const { error } = JSON.parse(body)
 
-    expect(statusCode).toBe(404);
+    expect(error).toBe('Some fields are missing');
   });
 
 });
