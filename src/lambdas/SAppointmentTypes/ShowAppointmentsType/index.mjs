@@ -3,34 +3,28 @@ import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   
-  const { userId, appointmentDate } = event.queryStringParameters;
+  const { userId } = event.queryStringParameters;
 
   try {
     const getDynamoCommand = new QueryCommand({
-      TableName: "SAppointments",
+      TableName: "SAppointmentTypes",
       ScanIndexForward: true,
       KeyConditionExpression: "#userId = :userId",
-      FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
-        ":appointmentDate": {
-          "S": appointmentDate
-        },
         ":userId": {
           "S": userId
         }
       },
       ExpressionAttributeNames: {
-        "#appointmentDate": "appointmentDate",
         "#userId": "userId"
       }});
   
-    const appointments = await clients.dynamoClient.send(getDynamoCommand);
+    const appointmentTypes = await clients.dynamoClient.send(getDynamoCommand);
   
     return {
       statusCode: 201,
-      body: JSON.stringify(appointments),
+      body: JSON.stringify(appointmentTypes),
     };
-    
   } catch (error) {
     console.log({
       user: userId,

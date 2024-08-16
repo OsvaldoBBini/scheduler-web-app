@@ -97,6 +97,11 @@ export async function handler(event) {
   
     await clients.dynamoClient.send(putDynamoCommand);
     
+    return {
+      statusCode: 204,
+      body: null,
+    };
+    
   } catch (error) {
     console.log({
       user: userId,
@@ -107,8 +112,4 @@ export async function handler(event) {
     });
   }
 
-  return {
-    statusCode: 204,
-    body: null,
-  };
 }

@@ -38,9 +38,10 @@ describe('update SA', () => {
       appointmentPayment: 50
     })};
 
-    const { statusCode } = await handler(event);
+    const { body } = await handler(event);
+    const { error } = JSON.parse(body)
 
-    expect(statusCode).toBe(409);
+    expect(error).toBe('An appointment already exists for this date.');
   });
 
 });

@@ -96,3 +96,36 @@ export const SAinitialData = [
     },
   },
 ]
+
+export const STinitialData = [
+  {
+    TableName: 'SAppointmentTypes',
+    Item:
+    {
+      userId: { S: '1234567' },
+      appointmentTypeId: { S: '0000001' }, 
+      appointmentTypeName: { S: 'Express' }, 
+      appointmentTypePrice: { N: 90 }, 
+    }
+  },
+  {
+    TableName: 'SAppointmentTypes',
+    Item:
+    {
+      userId: { S: '1234568' },
+      appointmentTypeId: { S: '0000001' }, 
+      appointmentTypeName: { S: 'Curso' }, 
+      appointmentTypePrice: { N: 800 }, 
+    }
+  },
+  {
+    TableName: 'SAppointmentTypes',
+    Item:
+    {
+      userId: { S: '1234569' },
+      appointmentTypeId: { S: '0000001' }, 
+      appointmentTypeName: { S: 'Express' }, 
+      appointmentTypePrice: { N: 90 }, 
+    }
+  }
+]

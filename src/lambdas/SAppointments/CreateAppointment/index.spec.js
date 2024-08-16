@@ -42,9 +42,10 @@ describe('create SA', () => {
       appointmentPayment: 50
     })};
 
-    const { statusCode } = await handler(event);
+    const { body } = await handler(event);
+    const { error } = JSON.parse(body);
 
-    expect(statusCode).toBe(404);
+    expect(error).toBe('Some fields are missing');
   });
 
   it('Should not to be able to create a conflicted appointment', async () => {
@@ -62,9 +63,10 @@ describe('create SA', () => {
       appointmentPayment: 50
     })};
 
-    const { statusCode } = await handler(event);
+    const { body } = await handler(event);
+    const { error } = JSON.parse(body);
 
-    expect(statusCode).toStrictEqual(409);
+    expect(error).toStrictEqual('An appointment already exists for this date.');
   });
 
 });

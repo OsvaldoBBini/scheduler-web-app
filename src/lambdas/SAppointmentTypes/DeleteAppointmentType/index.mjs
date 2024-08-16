@@ -4,24 +4,24 @@ import { clients } from '../../../lib/Clients.mjs';
 export async function handler(event) {
   
   const { userId } = event.queryStringParameters;
-  const { appointmentId } = JSON.parse(event.body);
+  const { appointmentTypeId } = JSON.parse(event.body);
 
   try {
     const deleteDynamoCommand = new DeleteItemCommand({
-      TableName: 'SAppointments',
+      TableName: 'SAppointmentTypes',
       Key: {
         userId: { S: userId },
-        appointmentId: { S: appointmentId }
+        appointmentTypeId: { S: appointmentTypeId }
       }
     });
-  
+    
     await clients.dynamoClient.send(deleteDynamoCommand);
     
     return {
       statusCode: 204,
       body: null,
     };
-
+    
   } catch (error) {
     console.log({
       user: userId,
