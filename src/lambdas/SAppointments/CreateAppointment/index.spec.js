@@ -3,7 +3,7 @@ import { handler } from './index.mjs';
 import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
 
 
-describe('create SA', () => {
+describe('create', () => {
 
   it('Should be able to create an appointment', async () => {
 
@@ -12,7 +12,7 @@ describe('create SA', () => {
     const randomYear = generateRandomNumber(2024, 2040);
 
     const event = {
-      queryStringParameters: { userId: '123456' },
+      queryStringParameters: { userEmail: 'johnone@gmail.com' },
       body: JSON.stringify({
       appointmentDate: `${randomDay}/${randomMonth}/${randomYear}`,
       name: 'Osvaldo Bazzan',
@@ -32,7 +32,7 @@ describe('create SA', () => {
   it('Should not be able to create an appointment with missing props', async () => {
 
     const event = {
-      queryStringParameters: { userId: '123456' },
+      queryStringParameters: { userEmail: 'johnone@gmail.com' },
       body: JSON.stringify({
       appointmentDate: '24/05/2001',
       name: 'Osvaldo Bazzan',
@@ -51,7 +51,7 @@ describe('create SA', () => {
   it('Should not to be able to create a conflicted appointment', async () => {
 
     const event = {
-      queryStringParameters: { userId: '123456' },
+      queryStringParameters: { userEmail: 'johnone@gmail.com' },
       body: JSON.stringify({
       appointmentDate: '23/05/2050',
       name: 'John Doe',

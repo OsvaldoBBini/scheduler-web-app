@@ -7,12 +7,14 @@ describe('show AT', () => {
 
     const event = {
       queryStringParameters: {
-        userId: '1234568',
+        userEmail: 'johnthree@gmail.com',
       }
     };
 
     const { body } = await handler(event);
     const appointmentTypes = JSON.parse(body);
+
+    console.log(appointmentTypes)
 
     expect(appointmentTypes.Count).toBe(1);
   });

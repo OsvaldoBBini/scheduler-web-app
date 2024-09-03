@@ -3,12 +3,12 @@ import { CreateTableCommand } from "@aws-sdk/client-dynamodb"
 const SAtable = {
   TableName: 'SAppointments',
   KeySchema: [
-    { AttributeName: 'userId', KeyType: 'HASH' }, // Partition key
-    { AttributeName: 'appointmentId', KeyType: 'RANGE' } // Sort key
+    { AttributeName: 'GSI1PK', KeyType: 'HASH' }, // Partition key
+    { AttributeName: 'GSI1SK', KeyType: 'RANGE' } // Sort key
   ],
   AttributeDefinitions: [
-    { AttributeName: 'userId', AttributeType: 'S' },
-    { AttributeName: 'appointmentId', AttributeType: 'S' },
+    { AttributeName: 'GSI1PK', AttributeType: 'S' },
+    { AttributeName: 'GSI1SK', AttributeType: 'S' },
   ],
   ProvisionedThroughput: {
     ReadCapacityUnits: 5,

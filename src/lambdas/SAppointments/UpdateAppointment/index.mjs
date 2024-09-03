@@ -3,7 +3,9 @@ import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userId, appointmentId } = event.queryStringParameters;
+  const { userEmail, appointmentId } = event.queryStringParameters;
+  const pk = `USER#${userEmail}`;
+
   const { appointmentDate,
           name,
           phoneNumber,
@@ -26,25 +28,25 @@ export async function handler(event) {
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointments",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userId = :userId",
+      KeyConditionExpression: "#userEmail = :userEmail",
       FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
         ":appointmentDate": {
           "S": appointmentDate
         },
-        ":userId": {
-          "S": userId
+        ":userEmail": {
+          "S": pk
         }
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userId": "userId"
+        "#userEmail": "GSI1PK"
       }});
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
       const verifyAppointments = appointments.Items
-      .filter(({ appointmentId: {S: id} }) => id !== appointmentId)
+      .filter(({ GSI1SK: {S: id} }) => id !== appointmentId)
       .filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
         const start = Number(startN);
         const end = Number(endN);
@@ -69,8 +71,8 @@ export async function handler(event) {
     const putDynamoCommand = new UpdateItemCommand({
       TableName: 'SAppointments',
       Key: {
-        userId: { S: userId },
-        appointmentId: { S: appointmentId }
+        GSI1PK: { S: pk },
+        GSI1SK: { S: appointmentId }
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
@@ -104,7 +106,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

@@ -6,7 +6,7 @@ describe('update ST', () => {
   it('Should be able to update an appointment type', async () => {
 
     const event = {
-      queryStringParameters: { userId: '1234567', appointmentTypeId: '0000001'},
+      queryStringParameters: { userEmail: 'johnone@gmail.com', appointmentTypeId: 'TYPE#0000001'},
       body: JSON.stringify({
         appointmentTypeName: 'Social',
         appointmentTypePrice: 130

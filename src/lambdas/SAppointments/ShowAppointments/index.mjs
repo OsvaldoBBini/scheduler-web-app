@@ -3,25 +3,26 @@ import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   
-  const { userId, appointmentDate } = event.queryStringParameters;
+  const { userEmail, appointmentDate } = event.queryStringParameters;
+  const pk = `USER#${userEmail}`;
 
   try {
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointments",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userId = :userId",
+      KeyConditionExpression: "#userEmail = :userEmail",
       FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
         ":appointmentDate": {
           "S": appointmentDate
         },
-        ":userId": {
-          "S": userId
+        ":userEmail": {
+          "S": pk
         }
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userId": "userId"
+        "#userEmail": "GSI1PK"
       }});
   
     const appointments = await clients.dynamoClient.send(getDynamoCommand);
@@ -33,7 +34,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

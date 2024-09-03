@@ -4,7 +4,9 @@ import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userId } = event.queryStringParameters;
+  const { userEmail } = event.queryStringParameters;
+  const pk = `USER#${userEmail}`;
+
   const { 
     appointmentTypeName,
     appointmentTypePrice
@@ -23,12 +25,12 @@ export async function handler(event) {
     const appointmentTypeId = randomUUID();
 
     const putDynamoCommand = new PutItemCommand({
-      TableName: 'SAppointmentTypes',
+      TableName: 'SAppointments',
       Item: {
-        userId: { S: userId },
-        appointmentTypeId: { S: appointmentTypeId },
-        appointmentName: { S: appointmentTypeName },
-        appointmentPrice: { S: appointmentTypePrice },
+        GSI1PK: { S: pk },
+        GSI1SK: { S: `TYPE#${appointmentTypeId}` },
+        appointmentTypeName: { S: appointmentTypeName },
+        appointmentTypePrice: { S: appointmentTypePrice },
       },
     });
   
@@ -41,7 +43,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

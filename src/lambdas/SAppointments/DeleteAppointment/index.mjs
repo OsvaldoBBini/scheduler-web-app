@@ -3,15 +3,17 @@ import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   
-  const { userId } = event.queryStringParameters;
+  const { userEmail } = event.queryStringParameters;
+  const pk = `USER#${userEmail}`;
+  
   const { appointmentId } = JSON.parse(event.body);
 
   try {
     const deleteDynamoCommand = new DeleteItemCommand({
       TableName: 'SAppointments',
       Key: {
-        userId: { S: userId },
-        appointmentId: { S: appointmentId }
+        GSI1PK: { S: pk },
+        GSI1SK: { S: appointmentId }
       }
     });
   
@@ -24,7 +26,7 @@ export async function handler(event) {
 
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

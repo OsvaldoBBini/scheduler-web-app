@@ -4,7 +4,9 @@ import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userId } = event.queryStringParameters;
+  const { userEmail } = event.queryStringParameters;
+  const pk = `USER#${userEmail}`;
+
   const { appointmentDate,
           name,
           phoneNumber,
@@ -27,19 +29,19 @@ export async function handler(event) {
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointments",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userId = :userId",
+      KeyConditionExpression: "#userEmail = :userEmail",
       FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
         ":appointmentDate": {
           "S": appointmentDate
         },
-        ":userId": {
-          "S": userId
+        ":userEmail": {
+          "S": pk
         }
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userId": "userId"
+        "#userEmail": "GSI1PK"
       }});
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
@@ -69,8 +71,8 @@ export async function handler(event) {
     const putDynamoCommand = new PutItemCommand({
       TableName: 'SAppointments',
       Item: {
-        userId: { S: userId },
-        appointmentId: { S: appointmentId },
+        GSI1PK: { S:  pk },
+        GSI1SK: { S: `APPO#${appointmentId}` },
         appointmentDate: { S: appointmentDate },
         name: { S: name },
         phoneNumber: { S: phoneNumber },
@@ -91,7 +93,7 @@ export async function handler(event) {
 
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

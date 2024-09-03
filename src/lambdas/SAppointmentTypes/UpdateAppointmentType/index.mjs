@@ -3,7 +3,9 @@ import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userId, appointmentTypeId } = event.queryStringParameters;
+  const { userEmail, appointmentTypeId } = event.queryStringParameters;
+  const pk = `USER${userEmail}`;
+
   const { appointmentTypeName, appointmentTypePrice } = JSON.parse(event.body);
 
   if ([appointmentTypeName, appointmentTypePrice].includes(undefined)) {
@@ -18,10 +20,10 @@ export async function handler(event) {
   try {
 
     const putDynamoCommand = new UpdateItemCommand({
-      TableName: 'SAppointmentTypes',
+      TableName: 'SAppointments',
       Key: {
-        userId: { S: userId },
-        appointmentTypeId: { S: appointmentTypeId }
+        GSI1PK: { S: pk },
+        GSI1SK: { S: appointmentTypeId }
       },
       ExpressionAttributeNames: {
         "#appointmentTypeName": "appointmentTypeName",
@@ -43,7 +45,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userId,
+      user: userEmail,
       data: new Date(),
       message: error.message,
       name: error.name,

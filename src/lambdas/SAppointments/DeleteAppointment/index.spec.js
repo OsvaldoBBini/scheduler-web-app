@@ -1,16 +1,16 @@
 import { expect, it, describe } from 'vitest'
 import { handler } from './index.mjs';
 
-describe('delete SA', () => {
+describe('delete', () => {
 
   it('Should be able to delete an appointment', async () => {
 
     const event = {
       queryStringParameters: {
-        userId: '123459',
+        userEmail: 'johntwo@gmail.com',
       },
       body: JSON.stringify({
-        appointmentId: '0000001'
+        appointmentId: 'APPO#0000001'
       })
     };
 
