@@ -14,8 +14,6 @@ describe('show AT', () => {
     const { body } = await handler(event);
     const appointmentTypes = JSON.parse(body);
 
-    console.log(appointmentTypes)
-
     expect(appointmentTypes.Count).toBe(1);
   });
 
