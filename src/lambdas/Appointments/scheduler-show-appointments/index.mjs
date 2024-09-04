@@ -1,28 +1,25 @@
-import { QueryCommand } from '@aws-sdk/client-dynamodb'
 import { clients } from '../../../lib/Clients.mjs';
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 export async function handler(event) {
   
-  const { userEmail, appointmentDate } = event.queryStringParameters;
-  const pk = `USER#${userEmail}`;
+  const { userId } = event.pathParameters;
+  const { appointmentDate } = event.queryStringParameters;
+  const pk = `USER#${userId}`;
 
   try {
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointments",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userEmail = :userEmail",
+      KeyConditionExpression: "#userId = :userId",
       FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
-        ":appointmentDate": {
-          "S": appointmentDate
-        },
-        ":userEmail": {
-          "S": pk
-        }
+        ":appointmentDate": appointmentDate,
+        ":userId": pk
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userEmail": "GSI1PK"
+        "#userId": "GSI1PK"
       }});
   
     const appointments = await clients.dynamoClient.send(getDynamoCommand);
@@ -34,7 +31,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

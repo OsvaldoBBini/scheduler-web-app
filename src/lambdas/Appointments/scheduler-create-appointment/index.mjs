@@ -1,11 +1,11 @@
-import { PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
+import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
 import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userEmail } = event.queryStringParameters;
-  const pk = `USER#${userEmail}`;
+  const { userId } = event.pathParameters;
+  const pk = `USER#${userId}`;
 
   const { appointmentDate,
           name,
@@ -29,24 +29,20 @@ export async function handler(event) {
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointments",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userEmail = :userEmail",
+      KeyConditionExpression: "#userId = :userId",
       FilterExpression: "#appointmentDate = :appointmentDate",
       ExpressionAttributeValues: {
-        ":appointmentDate": {
-          "S": appointmentDate
-        },
-        ":userEmail": {
-          "S": pk
-        }
+        ":appointmentDate": appointmentDate,
+        ":userId": pk
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userEmail": "GSI1PK"
+        "#userId": "GSI1PK"
       }});
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-      const verifyAppointments = appointments.Items.filter(({ startsAt: { N: startN }, endsAt: { N: endN } }) => {
+      const verifyAppointments = appointments.Items.filter(({ startsAt: startN , endsAt: endN }) => {
         const start = Number(startN);
         const end = Number(endN);
       
@@ -68,19 +64,19 @@ export async function handler(event) {
       };
 
     const appointmentId = randomUUID();
-    const putDynamoCommand = new PutItemCommand({
+    const putDynamoCommand = new PutCommand({
       TableName: 'SAppointments',
       Item: {
-        GSI1PK: { S:  pk },
-        GSI1SK: { S: `APPO#${appointmentId}` },
-        appointmentDate: { S: appointmentDate },
-        name: { S: name },
-        phoneNumber: { S: phoneNumber },
-        startsAt: { N: startsAt },
-        endsAt: { N: endsAt },
-        appointmentType: { S: appointmentType },
-        confirmed: { BOOL: confirmed },
-        appointmentPayment: { N: appointmentPayment }
+        GSI1PK:  pk,
+        GSI1SK: `APPO#${appointmentId}`,
+        appointmentDate: appointmentDate,
+        name: name,
+        phoneNumber: phoneNumber,
+        startsAt: startsAt,
+        endsAt: endsAt,
+        appointmentType: appointmentType,
+        confirmed: confirmed,
+        appointmentPayment: appointmentPayment
       },
     });
   
@@ -93,7 +89,7 @@ export async function handler(event) {
 
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

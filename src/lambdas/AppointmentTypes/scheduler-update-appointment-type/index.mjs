@@ -1,10 +1,11 @@
-import { UpdateItemCommand } from '@aws-sdk/client-dynamodb'
+import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userEmail, appointmentTypeId } = event.queryStringParameters;
-  const pk = `USER${userEmail}`;
+  const { userId } = event.pathParameters; 
+  const { appointmentTypeId } = event.queryStringParameters;
+  const pk = `USER${userId}`;
 
   const { appointmentTypeName, appointmentTypePrice } = JSON.parse(event.body);
 
@@ -19,19 +20,19 @@ export async function handler(event) {
 
   try {
 
-    const putDynamoCommand = new UpdateItemCommand({
+    const putDynamoCommand = new UpdateCommand({
       TableName: 'SAppointments',
       Key: {
-        GSI1PK: { S: pk },
-        GSI1SK: { S: appointmentTypeId }
+        GSI1PK: pk,
+        GSI1SK: appointmentTypeId
       },
       ExpressionAttributeNames: {
         "#appointmentTypeName": "appointmentTypeName",
         "#appointmentTypePrice": "appointmentTypePrice"
       },
       ExpressionAttributeValues: {
-        ":appointmentTypeName": { S: appointmentTypeName },
-        ":appointmentTypePrice": { S: appointmentTypePrice },
+        ":appointmentTypeName": appointmentTypeName,
+        ":appointmentTypePrice": appointmentTypePrice,
       },
       UpdateExpression: "SET #appointmentTypeName = :appointmentTypeName, #appointmentTypePrice = :appointmentTypePrice"
     });
@@ -45,7 +46,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

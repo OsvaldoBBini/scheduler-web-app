@@ -1,19 +1,19 @@
-import { DeleteItemCommand } from '@aws-sdk/client-dynamodb'
+import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   
-  const { userEmail } = event.queryStringParameters;
-  const pk = `USER#${userEmail}`;
+  const { userId } = event.pathParameters;
+  const pk = `USER#${userId}`;
 
   const { appointmentTypeId } = JSON.parse(event.body);
 
   try {
-    const deleteDynamoCommand = new DeleteItemCommand({
+    const deleteDynamoCommand = new DeleteCommand({
       TableName: 'SAppointments',
       Key: {
-        GSI1PK: { S: pk },
-        GSI1SK: { S: appointmentTypeId }
+        GSI1PK: pk,
+        GSI1SK: appointmentTypeId
       }
     });
     
@@ -26,7 +26,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

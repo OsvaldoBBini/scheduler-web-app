@@ -1,8 +1,5 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: osvaldobazzanbini
-# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
 app: schedulerapp
-# "service" is the name of this project. This will also be added to your AWS resource names.
 service: scheduler-web-app
 
 provider:
@@ -10,12 +7,33 @@ provider:
   runtime: nodejs20.x
 
 functions:
-  hello:
+  create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment.handler
     events:
       - httpApi:
           path: /appointments
           method: post
+
+  # show-appointments:
+  #   handler: src/lambdas/Appointments/scheduler-show-appointments.handler
+  #   events:
+  #     - httpApi:
+  #         path: /appointments
+  #         method: get
+  
+  # delete-appointments:
+  #   handler: src/lambdas/Appointments/scheduler-delete-appointment.handler
+  #   events:
+  #     - httpApi:
+  #         path: /appointments
+  #         method: delete
+  
+  # update-appointments:
+  #   handler: src/lambdas/Appointments/scheduler-update-appointment.handler
+  #   events:
+  #     - httpApi:
+  #         path: /appointments
+  #         method: put
 
 # functions:
 #   hello:

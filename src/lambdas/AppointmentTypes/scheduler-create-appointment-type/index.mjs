@@ -1,11 +1,11 @@
-import { PutItemCommand } from '@aws-sdk/client-dynamodb'
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
 import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
 
-  const { userEmail } = event.queryStringParameters;
-  const pk = `USER#${userEmail}`;
+  const { userId } = event.pathParameters;
+  const pk = `USER#${userId}`;
 
   const { 
     appointmentTypeName,
@@ -24,13 +24,13 @@ export async function handler(event) {
   try {
     const appointmentTypeId = randomUUID();
 
-    const putDynamoCommand = new PutItemCommand({
+    const putDynamoCommand = new PutCommand({
       TableName: 'SAppointments',
       Item: {
-        GSI1PK: { S: pk },
-        GSI1SK: { S: `TYPE#${appointmentTypeId}` },
-        appointmentTypeName: { S: appointmentTypeName },
-        appointmentTypePrice: { S: appointmentTypePrice },
+        GSI1PK: pk,
+        GSI1SK: `TYPE#${appointmentTypeId}`,
+        appointmentTypeName: appointmentTypeName,
+        appointmentTypePrice: appointmentTypePrice,
       },
     });
   
@@ -43,7 +43,7 @@ export async function handler(event) {
     
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

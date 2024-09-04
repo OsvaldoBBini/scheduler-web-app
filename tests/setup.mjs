@@ -1,9 +1,9 @@
 import { beforeAll } from 'vitest';
 import { createLocalDynamoClient } from './utils/createLocalDynamoClient.mjs';
-import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { clients } from '../src/lib/Clients.mjs';
 import { createAppointmentsTableCommand } from './utils/createSAppointmentsTable.mjs';
 import { SAinitialData, STinitialData } from './utils/initialData.mjs';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 
 beforeAll(async () => {
   clients.dynamoClient = createLocalDynamoClient();
@@ -13,11 +13,11 @@ beforeAll(async () => {
   } catch { /* empty */ }
 
   await Promise.all(SAinitialData.map((item) => {
-    clients.dynamoClient.send(new PutItemCommand(item));
+    clients.dynamoClient.send(new PutCommand(item));
   }));
 
   await Promise.all(STinitialData.map((item) => {
-    clients.dynamoClient.send(new PutItemCommand(item));
+    clients.dynamoClient.send(new PutCommand(item));
   }));
 
 });

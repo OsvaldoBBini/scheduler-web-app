@@ -6,7 +6,7 @@ describe('create AT', () => {
   it('Should be able to create an appointmenttype', async () => {
 
     const event = {
-      queryStringParameters: { userEmail: 'johnone@gmail.com' },
+      pathParameters: { userId: '1' },
       body: JSON.stringify({
         appointmentTypeName: 'Curso',
         appointmentTypePrice: 900
@@ -20,7 +20,7 @@ describe('create AT', () => {
   it('Should not be able to create an appointment type with missing props', async () => {
 
     const event = {
-      queryStringParameters: { userEmail: 'johnone@gmail.com' },
+      pathParameters: { userId: '1' },
       body: JSON.stringify({
         appointmentTypeName: 'Curso'
     })};

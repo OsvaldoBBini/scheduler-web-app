@@ -3,96 +3,96 @@ export const SAinitialData = [
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johnone@gmail.com' },
-      GSI1SK: { S: 'APPO#0000001' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 60 },
-      endsAt: { N: 120 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#1',
+      GSI1SK: 'APPO#0000001',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  60,
+      endsAt:  120,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  '120'
     },
   },
   {
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johntwo@gmail.com' },
-      GSI1SK: { S: 'APPO#0000001' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 60 },
-      endsAt: { N: 120 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#2',
+      GSI1SK: 'APPO#0000001',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  60,
+      endsAt:  120,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  120
     },
   },
   {
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johnthree@gmail.com' },
-      GSI1SK: { S: 'APPO#0000001' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 60 },
-      endsAt: { N: 120 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#3',
+      GSI1SK: 'APPO#0000001',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  60,
+      endsAt:  120,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  120
     },
   },
   {
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johnfour@gmail.com' },
-      GSI1SK: { S: 'APPO#0000001' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 60 },
-      endsAt: { N: 120 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000001',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  60,
+      endsAt:  120,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  120
     },
   },
   {
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johnfour@gmail.com' },
-      GSI1SK: { S: 'APPO#0000002' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 120 },
-      endsAt: { N: 180 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000002',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  120,
+      endsAt:  180,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  120
     },
   },
   {
     TableName: 'SAppointments',
     Item: 
     {
-      GSI1PK: { S: 'USER#johnfour@gmail.com' },
-      GSI1SK: { S: 'APPO#0000003' },
-      appointmentDate: { S: '23/05/2050' },
-      name: { S: 'John Doe' },
-      phoneNumber: { S: '999999999' },
-      startsAt: { N: 180 },
-      endsAt: { N: 240 },
-      appointmentType: { S: 'Express' },
-      confirmed: { S: false },
-      appointmentPayment: { N: 120 }
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000003',
+      appointmentDate: '23/05/2050',
+      name: 'John Doe',
+      phoneNumber: '999999999',
+      startsAt:  180,
+      endsAt:  240,
+      appointmentType: 'Express',
+      confirmed: false,
+      appointmentPayment:  120
     },
   },
 ]
@@ -102,30 +102,30 @@ export const STinitialData = [
     TableName: 'SAppointments',
     Item:
     {
-      GSI1PK: { S: 'USER#johnone@gmail.com' },
-      GSI1SK: { S: 'TYPE#0000001' }, 
-      appointmentTypeName: { S: 'Express' }, 
-      appointmentTypePrice: { N: 90 }, 
+      GSI1PK: 'USER#1',
+      GSI1SK: 'TYPE#0000001', 
+      appointmentTypeName: 'Express', 
+      appointmentTypePrice:  90, 
     }
   },
   {
     TableName: 'SAppointments',
     Item:
     {
-      GSI1PK: { S: 'USER#johntwo@gmail.com' },
-      GSI1SK: { S: 'TYPE#0000001' },
-      appointmentTypeName: { S: 'Curso' }, 
-      appointmentTypePrice: { N: 800 }, 
+      GSI1PK: 'USER#2',
+      GSI1SK: 'TYPE#0000001',
+      appointmentTypeName: 'Curso', 
+      appointmentTypePrice:  800, 
     }
   },
   {
     TableName: 'SAppointments',
     Item:
     {
-      GSI1PK: { S: 'USER#johnthree@gmail.com' },
-      GSI1SK: { S: 'TYPE#0000001' }, 
-      appointmentTypeName: { S: 'Express' }, 
-      appointmentTypePrice: { N: 90 }, 
+      GSI1PK: 'USER#3',
+      GSI1SK: 'TYPE#0000001', 
+      appointmentTypeName: 'Express', 
+      appointmentTypePrice:  90, 
     }
   }
 ]

@@ -1,10 +1,10 @@
-import { QueryCommand } from '@aws-sdk/client-dynamodb'
+import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { clients } from '../../../lib/Clients.mjs';
 
 export async function handler(event) {
   
-  const { userEmail } = event.queryStringParameters;
-  const pk = `USER#${userEmail}`;
+  const { userId } = event.pathParameters;
+  const pk = `USER#${userId}`;
 
   try {
     const getDynamoCommand = new QueryCommand({
@@ -12,10 +12,8 @@ export async function handler(event) {
       ScanIndexForward: true,
       KeyConditionExpression: "#userEmail = :userEmail AND begins_with(#type, :type)",
       ExpressionAttributeValues: {
-        ":userEmail": {
-          "S": pk
-        },
-        ":type": { "S": "TYPE#" }
+        ":userEmail": pk,
+        ":type": "TYPE#"
       },
       ExpressionAttributeNames: {
         "#userEmail": "GSI1PK",
@@ -30,7 +28,7 @@ export async function handler(event) {
     };
   } catch (error) {
     console.log({
-      user: userEmail,
+      user: userId,
       data: new Date(),
       message: error.message,
       name: error.name,

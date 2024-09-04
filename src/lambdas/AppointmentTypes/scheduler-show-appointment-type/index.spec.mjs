@@ -6,8 +6,8 @@ describe('show AT', () => {
   it('Should be able to show appointment types', async () => {
 
     const event = {
-      queryStringParameters: {
-        userEmail: 'johnthree@gmail.com',
+      pathParameters: {
+        userId: '3',
       }
     };
 

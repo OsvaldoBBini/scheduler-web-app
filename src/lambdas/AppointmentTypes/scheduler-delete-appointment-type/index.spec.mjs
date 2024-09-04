@@ -6,8 +6,8 @@ describe('delete ST', () => {
   it('Should be able to delete an appointment type', async () => {
 
     const event = {
-      queryStringParameters: {
-        userId: 'johntwo@gmail.com',
+      pathParameters: {
+        userId: '2',
       },
       body: JSON.stringify({
         appointmentTypeId: 'TYPE#0000001'

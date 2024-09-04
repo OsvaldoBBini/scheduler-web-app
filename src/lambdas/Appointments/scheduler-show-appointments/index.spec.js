@@ -6,8 +6,10 @@ describe('show', () => {
   it('Should be able to show appointments', async () => {
 
     const event = {
+      pathParameters: {
+        userId: '3',
+      },
       queryStringParameters: {
-        userEmail: 'johnthree@gmail.com',
         appointmentDate: '23/05/2050'
       }
     };
