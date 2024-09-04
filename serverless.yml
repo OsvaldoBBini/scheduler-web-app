@@ -2,16 +2,45 @@ org: osvaldobazzanbini
 app: schedulerapp
 service: scheduler-web-app
 
+plugins:
+  - serverless-esbuild
+
 provider:
   name: aws
   runtime: nodejs20.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:DeleteItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:UpdateItem
+          Resource:
+            - !GetAtt SAppointments.Arn
+
+package:
+  individually: true
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: false
+    exclude:
+      - '@aws-sdk/*'
+    target: node20
+    platform: node
+    concurrency: 10
 
 functions:
   create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment.handler
     events:
       - httpApi:
-          path: /appointments
+          path: /appointments/{userId}
           method: post
 
   # show-appointments:
@@ -35,10 +64,22 @@ functions:
   #         path: /appointments
   #         method: put
 
-# functions:
-#   hello:
-#     handler: src/lambdas/SAppointments/CreateAppointment.handler
-#     events:
-#       - httpApi:
-#           path: /appointments
-#           method: post
+resources:
+  Resources:
+    SAppointments:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SAppointments
+        BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        AttributeDefinitions:
+          - AttributeName: GSI1PK
+            AttributeType: S
+          - AttributeName: GSI1SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: GSI1PK
+            KeyType: HASH
+          - AttributeName: GSI1SK
+            keyType: HASH
