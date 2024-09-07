@@ -2,53 +2,49 @@ org: osvaldobazzanbini
 app: schedulerapp
 service: scheduler-web-app
 
-plugins:
-  - serverless-esbuild
-
 provider:
   name: aws
+  region: us-east-1
   runtime: nodejs20.x
   iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:PutItem
-            - dynamodb:DeleteItem
-            - dynamodb:GetItem
-            - dynamodb:Scan
-            - dynamodb:UpdateItem
-          Resource:
-            - !GetAtt SAppointments.Arn
+      role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
 
 package:
   individually: true
-
-custom:
-  esbuild:
-    bundle: true
-    minify: false
-    sourcemap: false
-    exclude:
-      - '@aws-sdk/*'
-    target: node20
-    platform: node
-    concurrency: 10
+  patterns:
+    - '!tests/**'
+    - '!@aws-sdk'
+    - '!.github/**'
+    - '!.gitignore'
+    - '!eslint.config.mjs'
+    - '!package.json'
+    - '!vitest.config.js'
+    - '!yarn.lock'
+    - '!node_modules/**'
+    - '!src/lambdas/**'
 
 functions:
   create-appointment:
-    handler: src/lambdas/Appointments/scheduler-create-appointment.handler
+    handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
+    
+    package:
+      patterns:
+        - 'src/lambdas/Appointments/scheduler-create-appointment/index.mjs'
+
     events:
       - httpApi:
           path: /appointments/{userId}
-          method: post
+          method: POST
 
-  # show-appointments:
-  #   handler: src/lambdas/Appointments/scheduler-show-appointments.handler
-  #   events:
-  #     - httpApi:
-  #         path: /appointments
-  #         method: get
+  show-appointments:
+    handler: src/lambdas/Appointments/scheduler-show-appointments/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Appointments/scheduler-show-appointments/index.mjs'
+    events:
+      - httpApi:
+          path: /appointments
+          method: GET
   
   # delete-appointments:
   #   handler: src/lambdas/Appointments/scheduler-delete-appointment.handler
