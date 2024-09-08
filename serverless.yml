@@ -24,7 +24,7 @@ package:
     - '!src/lambdas/**'
 
 functions:
-  create-appointment:
+  scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
     
     package:
@@ -36,7 +36,7 @@ functions:
           path: /appointments/{userId}
           method: POST
 
-  show-appointments:
+  scheduler-show-appointments:
     handler: src/lambdas/Appointments/scheduler-show-appointments/index.handler
     package:
       patterns:
@@ -46,6 +46,17 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: GET
+  
+  scheduler-delete-appointment:
+    handler: src/lambdas/Appointments/scheduler-delete-appointment/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Appointments/scheduler-delete-appointment/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments/{userId}
+          method: DELETE
   
   # delete-appointments:
   #   handler: src/lambdas/Appointments/scheduler-delete-appointment.handler
