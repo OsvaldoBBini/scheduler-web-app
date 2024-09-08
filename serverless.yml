@@ -1,6 +1,6 @@
 org: osvaldobazzanbini
-app: schedulerapp
-service: scheduler-web-app
+app: dev-apps
+service: apps
 
 provider:
   name: aws
@@ -41,9 +41,10 @@ functions:
     package:
       patterns:
         - 'src/lambdas/Appointments/scheduler-show-appointments/index.mjs'
+        
     events:
       - httpApi:
-          path: /appointments
+          path: /appointments/{userId}
           method: GET
   
   # delete-appointments:
@@ -78,4 +79,4 @@ resources:
           - AttributeName: GSI1PK
             KeyType: HASH
           - AttributeName: GSI1SK
-            keyType: HASH
+            KeyType: RANGE
