@@ -26,7 +26,6 @@ package:
 functions:
   scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
-    
     package:
       patterns:
         - 'src/lambdas/Appointments/scheduler-create-appointment/index.mjs'
@@ -57,23 +56,65 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: DELETE
-  
-  # delete-appointments:
-  #   handler: src/lambdas/Appointments/scheduler-delete-appointment.handler
-  #   events:
-  #     - httpApi:
-  #         path: /appointments
-  #         method: delete
-  
-  # update-appointments:
-  #   handler: src/lambdas/Appointments/scheduler-update-appointment.handler
-  #   events:
-  #     - httpApi:
-  #         path: /appointments
-  #         method: put
 
+  scheduler-update-appointment:
+    handler: src/lambdas/Appointments/scheduler-update-appointment/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Appointments/scheduler-update-appointment/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments/{userId}
+          method: PUT
+  
+  scheduler-create-appointment-type:
+    handler: src/lambdas/AppointmentTypes/scheduler-create-appointment-type/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/AppointmentTypes/scheduler-create-appointment-type/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments_type/{userId}
+          method: POST
+  
+  scheduler-show-appointment-type:
+    handler: src/lambdas/AppointmentTypes/scheduler-show-appointment-type/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/AppointmentTypes/scheduler-show-appointment-type/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments_type/{userId}
+          method: GET
+  
+  scheduler-delete-appointment-type:
+    handler: src/lambdas/AppointmentTypes/scheduler-delete-appointment-type/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/AppointmentTypes/scheduler-delete-appointment-type/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments_type/{userId}
+          method: DELETE
+  
+  scheduler-update-appointment-type:
+    handler: src/lambdas/AppointmentTypes/scheduler-update-appointment-type/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/AppointmentTypes/scheduler-update-appointment-type/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments_type/{userId}
+          method: PUT
+  
 resources:
   Resources:
+
     SAppointments:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -91,3 +132,50 @@ resources:
             KeyType: HASH
           - AttributeName: GSI1SK
             KeyType: RANGE
+        DeletionProtectionEnabled: true
+
+    SAUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        DeletionProtection: ACTIVE
+        UserPoolName: SAUserPool
+        MfaConfiguration: OFF
+        AutoVerifedAttributes: 
+          - email
+        AllowAdminCreateUserConfig:
+          AllowAdminCreateUserOnly: false
+        UserNameAttributes:
+          - email
+        AccountRecoverySetting:
+          RecoveryMechanisms: 
+            - Name: verified_email
+              Priority: 1
+        Policies:
+          PasswordPolicy: 
+            MinimumLength: 8
+            RequireLowercase: true
+            RequireNumbers: true
+            RequireUppercase: true
+            TemporaryPasswordValiditDays: 2
+        Schema:
+          - Name: given_name
+            Mutable: true
+            Required: true
+            AttributeDataType: String
+
+    SAUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: SAUserPoolClient
+        UserPoolId: !Ref SAUserPool
+        ExplicitAuthFlows:
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+        AccessTokenValidity: 3
+        RefreshTokenValidity: 48 # 2 days
+        TokenValidityUnits:
+          AccessToken: hours
+          RefreshToken: hours 
+
+
+# 1:41 horas
