@@ -8,6 +8,8 @@ provider:
   runtime: nodejs20.x
   iam:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
+  enviroment:
+      COGNITO_CLIENT_ID: !Ref SAUserPoolClient
 
 package:
   individually: true
@@ -24,6 +26,17 @@ package:
     - '!src/lambdas/**'
 
 functions:
+  scheduler-sign-up-service:
+    handler: src/lambdas/Auth/signUp/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/signUp/index.mjs'
+
+    events:
+      - httpApi:
+          path: /signup
+          method: POST
+  
   scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
     package:
@@ -176,6 +189,3 @@ resources:
         TokenValidityUnits:
           AccessToken: hours
           RefreshToken: hours 
-
-
-# 1:41 horas
