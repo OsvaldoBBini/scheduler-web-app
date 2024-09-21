@@ -34,7 +34,7 @@ functions:
 
     events:
       - httpApi:
-          path: /signup
+          path: /auth/signup
           method: POST
   
   scheduler-create-appointment:
