@@ -8,7 +8,7 @@ provider:
   runtime: nodejs20.x
   iam:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
-  enviroment:
+  environment:
       COGNITO_CLIENT_ID: !Ref SAUserPoolClient
 
 package:
@@ -153,11 +153,11 @@ resources:
         DeletionProtection: ACTIVE
         UserPoolName: SAUserPool
         MfaConfiguration: OFF
-        AutoVerifedAttributes: 
+        AutoVerifiedAttributes: 
           - email
-        AllowAdminCreateUserConfig:
+        AdminCreateUserConfig:
           AllowAdminCreateUserOnly: false
-        UserNameAttributes:
+        UsernameAttributes:
           - email
         AccountRecoverySetting:
           RecoveryMechanisms: 
@@ -169,7 +169,7 @@ resources:
             RequireLowercase: true
             RequireNumbers: true
             RequireUppercase: true
-            TemporaryPasswordValiditDays: 2
+            TemporaryPasswordValidityDays: 2
         Schema:
           - Name: given_name
             Mutable: true
