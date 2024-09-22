@@ -39,6 +39,28 @@ functions:
           path: /auth/signup
           method: POST
   
+  scheduler-sign-in-service:
+    handler: src/lambdas/Auth/signIn/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/signIn/index.mjs'
+
+    events:
+      - httpApi:
+          path: /auth/signin
+          method: POST
+  
+  scheduler-confirmation-account-service:
+    handler: src/lambdas/Auth/accountConfirmation/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/accountConfirmation/index.mjs'
+
+    events:
+      - httpApi:
+          path: /auth/confirmation
+          method: POST
+  
   # Appointments
   scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
