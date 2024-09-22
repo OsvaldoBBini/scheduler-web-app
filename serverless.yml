@@ -26,6 +26,8 @@ package:
     - '!src/lambdas/**'
 
 functions:
+
+  # Authentication
   scheduler-sign-up-service:
     handler: src/lambdas/Auth/signUp/index.handler
     package:
@@ -37,6 +39,7 @@ functions:
           path: /auth/signup
           method: POST
   
+  # Appointments
   scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
     package:
@@ -80,7 +83,8 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: PUT
-  
+
+  # Appointments-type
   scheduler-create-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-create-appointment-type/index.handler
     package:
