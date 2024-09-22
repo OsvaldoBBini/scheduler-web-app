@@ -34,8 +34,13 @@ export async function handler(event) {
     if (error instanceof UsernameExistsException) {
       return {
         statusCode: 409,
-        body: JSON.stringify({'error': 'Esse email já está sendo usado'})
+        body: JSON.stringify({error: 'Esse email já está sendo usado'})
       }
+    }
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({error: 'Internal Server Error'})
     }
   };
 

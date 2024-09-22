@@ -26,6 +26,11 @@ export async function handler(event) {
         body: JSON.stringify({'error': 'O código enviado não é válido'})
       }
     }
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({error: 'Internal Server Error'})
+    }
   
   };
 

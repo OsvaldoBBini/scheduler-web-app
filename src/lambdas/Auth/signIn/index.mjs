@@ -17,8 +17,8 @@ export async function handler(event) {
       ClientId: process.env.COGNITO_CLIENT_ID,
       AuthFlow: 'USER_PASSWORD_AUTH',
       AuthParameters: {
-        Username: email,
-        Password: password,
+        USERNAME: email,
+        PASSWORD: password,
       }
     });
 
@@ -43,15 +43,20 @@ export async function handler(event) {
     if (error instanceof UserNotFoundException) {
       return {
         statusCode: 401,
-        body: JSON.stringify({'error': 'Usuário não encontrado'})
+        body: JSON.stringify({error: 'Usuário não encontrado'})
       }
     }
 
     if (error instanceof UserNotConfirmedException) {
       return {
         statusCode: 401,
-        body: JSON.stringify({'error': 'Usuário não possui a conta validada'})
+        body: JSON.stringify({error: 'Usuário não possui a conta validada'})
       }
+    }
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({error: 'Internal Server Error'})
     }
   };
 
