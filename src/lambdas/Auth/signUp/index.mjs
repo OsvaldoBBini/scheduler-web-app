@@ -1,4 +1,4 @@
-import { clients } from "../../lib/Clients.mjs";
+import clients from '../../../lib/Clients.mjs'
 import { SignUpCommand, UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 
 export async function handler(event) {
