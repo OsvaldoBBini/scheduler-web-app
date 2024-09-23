@@ -10,6 +10,15 @@ provider:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
   environment:
       COGNITO_CLIENT_ID: !Ref SAUserPoolClient
+  httpApi:
+    authorizers: 
+      CognitoAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: !GetAtt SAUserPool.ProviderURL
+        audience:
+          - !Ref SAUserPoolClient
+
 
 package:
   individually: true
@@ -50,6 +59,17 @@ functions:
           path: /auth/signin
           method: POST
   
+  scheduler-refresh-token-service:
+    handler: src/lambdas/Auth/refreshToken/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/refreshToken/index.mjs'
+
+    events:
+      - httpApi:
+          path: /auth/refreshToken
+          method: POST
+  
   scheduler-confirmation-account-service:
     handler: src/lambdas/Auth/accountConfirmation/index.handler
     package:
@@ -60,6 +80,20 @@ functions:
       - httpApi:
           path: /auth/confirmation
           method: POST
+
+  # Profile
+  scheduler-profile-info:
+    handler: src/lambdas/Me/profile/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Me/profile/index.mjs'
+
+    events:
+      - httpApi:
+          path: /profile
+          method: GET
+          authorizer: 
+            name: CognitoAuthorizer
   
   # Appointments
   scheduler-create-appointment:
@@ -72,6 +106,8 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: POST
+          authorizer: 
+            name: CognitoAuthorizer
 
   scheduler-show-appointments:
     handler: src/lambdas/Appointments/scheduler-show-appointments/index.handler
@@ -83,6 +119,8 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: GET
+          authorizer: 
+            name: CognitoAuthorizer
   
   scheduler-delete-appointment:
     handler: src/lambdas/Appointments/scheduler-delete-appointment/index.handler
@@ -94,6 +132,8 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: DELETE
+          authorizer: 
+            name: CognitoAuthorizer
 
   scheduler-update-appointment:
     handler: src/lambdas/Appointments/scheduler-update-appointment/index.handler
@@ -105,6 +145,8 @@ functions:
       - httpApi:
           path: /appointments/{userId}
           method: PUT
+          authorizer: 
+            name: CognitoAuthorizer
 
   # Appointments-type
   scheduler-create-appointment-type:
@@ -117,6 +159,8 @@ functions:
       - httpApi:
           path: /appointments_type/{userId}
           method: POST
+          authorizer: 
+            name: CognitoAuthorizer
   
   scheduler-show-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-show-appointment-type/index.handler
@@ -128,6 +172,8 @@ functions:
       - httpApi:
           path: /appointments_type/{userId}
           method: GET
+          authorizer: 
+            name: CognitoAuthorizer
   
   scheduler-delete-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-delete-appointment-type/index.handler
@@ -139,6 +185,8 @@ functions:
       - httpApi:
           path: /appointments_type/{userId}
           method: DELETE
+          authorizer: 
+            name: CognitoAuthorizer
   
   scheduler-update-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-update-appointment-type/index.handler
@@ -150,6 +198,8 @@ functions:
       - httpApi:
           path: /appointments_type/{userId}
           method: PUT
+          authorizer: 
+            name: CognitoAuthorizer
   
 resources:
   Resources:
