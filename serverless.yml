@@ -10,6 +10,7 @@ provider:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
   environment:
       COGNITO_CLIENT_ID: !Ref SAUserPoolClient
+      COGNITO_POOL_ID: !Ref SAUserPool
   httpApi:
     authorizers: 
       CognitoAuthorizer:
@@ -67,7 +68,7 @@ functions:
 
     events:
       - httpApi:
-          path: /auth/refreshToken
+          path: /auth/refresh
           method: POST
   
   scheduler-confirmation-account-service:
@@ -79,6 +80,28 @@ functions:
     events:
       - httpApi:
           path: /auth/confirmation
+          method: POST
+  
+  scheduler-reset-password-service:
+    handler: src/lambdas/Auth/resetPassword/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/resetPassword/index.mjs'
+
+    events:
+      - httpApi:
+          path: /auth/reset-password
+          method: POST
+  
+  scheduler-forgot-password-service:
+    handler: src/lambdas/Auth/forgotPassword/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/forgotPassword/index.mjs'
+
+    events:
+      - httpApi:
+          path: /auth/forgot
           method: POST
 
   # Profile
