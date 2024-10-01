@@ -19,6 +19,19 @@ provider:
         issuerUrl: !GetAtt SAUserPool.ProviderURL
         audience:
           - !Ref SAUserPoolClient
+    cors: 
+      allowedOrigins:
+        - http://localhost:5173
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowCredentials: true
 
 
 package:
@@ -103,6 +116,20 @@ functions:
       - httpApi:
           path: /auth/forgot
           method: POST
+  
+  # custom message
+  scheduler-cognito-custom-message:
+    handler: src/lambdas/Auth/cognitoCustomMessage/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Auth/cognitoCustomMessage/index.mjs'
+
+    events:
+      - cognitoUserPool:
+          pool: SAUserPool
+          trigger: CustomMessage
+          existing: true
+          forceDeploy: true
 
   # Profile
   scheduler-profile-info:

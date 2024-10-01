@@ -36,13 +36,13 @@ export async function handler(event) {
       body: JSON.stringify({
         accessToken: AuthenticationResult.AccessToken,
         refreshToken: AuthenticationResult.RefreshToken
-      }),
+      })
     };
 
   } catch (error) {
     if (error instanceof UserNotFoundException) {
       return {
-        statusCode: 401,
+        statusCode: 404,
         body: JSON.stringify({error: 'Usuário não encontrado'})
       }
     }
