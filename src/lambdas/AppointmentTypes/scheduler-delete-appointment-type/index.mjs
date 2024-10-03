@@ -10,10 +10,10 @@ export async function handler(event) {
 
   try {
     const deleteDynamoCommand = new DeleteCommand({
-      TableName: 'SAppointments',
+      TableName: 'SAppointmentsTable',
       Key: {
-        GSI1PK: pk,
-        GSI1SK: appointmentTypeId
+        PK: pk,
+        SK: appointmentTypeId
       }
     });
     

@@ -27,7 +27,7 @@ export async function handler(event) {
 
   try {
     const getDynamoCommand = new QueryCommand({
-      TableName: "SAppointments",
+      TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#userId = :userId",
       FilterExpression: "#appointmentDate = :appointmentDate",
@@ -37,13 +37,13 @@ export async function handler(event) {
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userId": "GSI1PK"
+        "#userId": "PK"
       }});
 
       const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
       const verifyAppointments = appointments.Items
-      .filter(({ GSI1SK: id }) => id !== appointmentId)
+      .filter(({ SK: id }) => id !== appointmentId)
       .filter(({ startsAt: startN, endsAt: endN }) => {
         const start = Number(startN);
         const end = Number(endN);
@@ -66,10 +66,10 @@ export async function handler(event) {
       };
 
     const putDynamoCommand = new UpdateCommand({
-      TableName: 'SAppointments',
+      TableName: 'SAppointmentsTable',
       Key: {
-        GSI1PK: pk,
-        GSI1SK: appointmentId
+        PK: pk,
+        SK: appointmentId
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",

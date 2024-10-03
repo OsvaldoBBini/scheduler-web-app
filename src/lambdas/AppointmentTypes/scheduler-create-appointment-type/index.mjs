@@ -25,10 +25,10 @@ export async function handler(event) {
     const appointmentTypeId = randomUUID();
 
     const putDynamoCommand = new PutCommand({
-      TableName: 'SAppointments',
+      TableName: 'SAppointmentsTable',
       Item: {
-        GSI1PK: pk,
-        GSI1SK: `TYPE#${appointmentTypeId}`,
+        PK: pk,
+        SK: `TYPE#${appointmentTypeId}`,
         appointmentTypeName: appointmentTypeName,
         appointmentTypePrice: appointmentTypePrice,
       },

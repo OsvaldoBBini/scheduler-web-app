@@ -1,10 +1,10 @@
 export const SAinitialData = [
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#1',
-      GSI1SK: 'APPO#0000001',
+      PK: 'USER#1',
+      SK: 'APPO#0000001',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -16,11 +16,11 @@ export const SAinitialData = [
     },
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#2',
-      GSI1SK: 'APPO#0000001',
+      PK: 'USER#2',
+      SK: 'APPO#0000001',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -32,11 +32,11 @@ export const SAinitialData = [
     },
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#3',
-      GSI1SK: 'APPO#0000001',
+      PK: 'USER#3',
+      SK: 'APPO#0000001',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -48,11 +48,11 @@ export const SAinitialData = [
     },
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000001',
+      PK: 'USER#4',
+      SK: 'APPO#0000001',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -64,11 +64,11 @@ export const SAinitialData = [
     },
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000002',
+      PK: 'USER#4',
+      SK: 'APPO#0000002',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -80,11 +80,11 @@ export const SAinitialData = [
     },
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item: 
     {
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000003',
+      PK: 'USER#4',
+      SK: 'APPO#0000003',
       appointmentDate: '23/05/2050',
       name: 'John Doe',
       phoneNumber: '999999999',
@@ -99,31 +99,31 @@ export const SAinitialData = [
 
 export const STinitialData = [
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item:
     {
-      GSI1PK: 'USER#1',
-      GSI1SK: 'TYPE#0000001', 
+      PK: 'USER#1',
+      SK: 'TYPE#0000001', 
       appointmentTypeName: 'Express', 
       appointmentTypePrice:  90, 
     }
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item:
     {
-      GSI1PK: 'USER#2',
-      GSI1SK: 'TYPE#0000001',
+      PK: 'USER#2',
+      SK: 'TYPE#0000001',
       appointmentTypeName: 'Curso', 
       appointmentTypePrice:  800, 
     }
   },
   {
-    TableName: 'SAppointments',
+    TableName: 'SAppointmentsTable',
     Item:
     {
-      GSI1PK: 'USER#3',
-      GSI1SK: 'TYPE#0000001', 
+      PK: 'USER#3',
+      SK: 'TYPE#0000001', 
       appointmentTypeName: 'Express', 
       appointmentTypePrice:  90, 
     }

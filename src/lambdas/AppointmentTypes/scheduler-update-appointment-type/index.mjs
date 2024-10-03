@@ -21,10 +21,10 @@ export async function handler(event) {
   try {
 
     const putDynamoCommand = new UpdateCommand({
-      TableName: 'SAppointments',
+      TableName: 'SAppointmentsTable',
       Key: {
-        GSI1PK: pk,
-        GSI1SK: appointmentTypeId
+        PK: pk,
+        SK: appointmentTypeId
       },
       ExpressionAttributeNames: {
         "#appointmentTypeName": "appointmentTypeName",

@@ -9,7 +9,7 @@ export async function handler(event) {
 
   try {
     const getDynamoCommand = new QueryCommand({
-      TableName: "SAppointments",
+      TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#userId = :userId",
       FilterExpression: "#appointmentDate = :appointmentDate",
@@ -19,7 +19,7 @@ export async function handler(event) {
       },
       ExpressionAttributeNames: {
         "#appointmentDate": "appointmentDate",
-        "#userId": "GSI1PK"
+        "#userId": "PK"
       }});
   
     const appointments = await clients.dynamoClient.send(getDynamoCommand);

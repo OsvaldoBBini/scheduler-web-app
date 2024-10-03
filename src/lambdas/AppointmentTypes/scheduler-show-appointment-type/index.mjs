@@ -8,7 +8,7 @@ export async function handler(event) {
 
   try {
     const getDynamoCommand = new QueryCommand({
-      TableName: "SAppointments",
+      TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#userEmail = :userEmail AND begins_with(#type, :type)",
       ExpressionAttributeValues: {
@@ -16,8 +16,8 @@ export async function handler(event) {
         ":type": "TYPE#"
       },
       ExpressionAttributeNames: {
-        "#userEmail": "GSI1PK",
-        "#type": "GSI1SK"
+        "#userEmail": "PK",
+        "#type": "SK"
       }});
   
     const appointmentTypes = await clients.dynamoClient.send(getDynamoCommand);
