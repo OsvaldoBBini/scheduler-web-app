@@ -3,11 +3,10 @@ import { randomUUID } from 'node:crypto';
 import { clients } from '../../../lib/Clients.mjs'
 
 export async function handler(event) {
-
-  const { userId } = event.pathParameters;
-  const pk = `USER#${userId}`;
-
-  const { appointmentDate,
+  
+  const { 
+          userId,
+          appointmentDate,
           name,
           phoneNumber,
           startsAt,
@@ -15,45 +14,41 @@ export async function handler(event) {
           appointmentType,
           confirmed,
           appointmentPayment} = JSON.parse(event.body);
-
-  if ([appointmentDate, name, phoneNumber, startsAt, endsAt, appointmentType].includes(undefined)) {
-    return {
-      statusCode: 404,
-      body: JSON.stringify({
-        error: 'Some fields are missing'
-      }),
-    };
-  };
-
+  
   try {
+    
+    const pk = `DATE#${appointmentDate}`;
+    const sk = `APPO#${randomUUID()}`;
+    const gsi1pk = `USER#${userId}`;
+    
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userId = :userId",
-      FilterExpression: "#appointmentDate = :appointmentDate",
+      KeyConditionExpression: "#pk = :pk",
+      FilterExpression: "#gsi1pk = :gsi1pk",
       ExpressionAttributeValues: {
-        ":appointmentDate": appointmentDate,
-        ":userId": pk
+        ":gsi1pk": gsi1pk,
+        ":pk": pk
       },
       ExpressionAttributeNames: {
-        "#appointmentDate": "appointmentDate",
-        "#userId": "PK"
+        "#gsi1pk": "GSI1PK",
+        "#pk": "PK"
       }});
-
-      const appointments = await clients.dynamoClient.send(getDynamoCommand);
-
-      const verifyAppointments = appointments.Items.filter(({ startsAt: startN , endsAt: endN }) => {
-        const start = Number(startN);
-        const end = Number(endN);
       
-        const newAppointmentOverlaps = 
-          (startsAt >= start && startsAt < end) ||   
-          (endsAt > start && endsAt <= end) ||       
-          (startsAt <= start && endsAt >= end);     
-
+    const appointments = await clients.dynamoClient.send(getDynamoCommand);
+    
+    const verifyAppointments = appointments.Items.filter(({ startsAt: startN , endsAt: endN }) => {
+      const start = Number(startN);
+      const end = Number(endN);
+    
+      const newAppointmentOverlaps = 
+        (startsAt >= start && startsAt < end) ||   
+        (endsAt > start && endsAt <= end) ||       
+        (startsAt <= start && endsAt >= end);     
+        
         return newAppointmentOverlaps;
       });
-
+      
       if(verifyAppointments.length) {
         return {
           statusCode: 409,
@@ -62,14 +57,14 @@ export async function handler(event) {
           }),
         };
       };
-
-    const appointmentId = randomUUID();
+    
     const putDynamoCommand = new PutCommand({
       TableName: 'SAppointmentsTable',
       Item: {
         PK:  pk,
-        SK: `APPO#${appointmentId}`,
-        appointmentDate: appointmentDate,
+        SK: sk,
+        GSI1PK: gsi1pk,
+        GSI1SK: sk,
         name: name,
         phoneNumber: phoneNumber,
         startsAt: startsAt,
@@ -88,6 +83,7 @@ export async function handler(event) {
     };
 
   } catch (error) {
+
     console.log({
       user: userId,
       data: new Date(),
@@ -95,6 +91,11 @@ export async function handler(event) {
       name: error.name,
       instanceType: error.constructor.name
     });
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({'error': 'Internal server error'})
+    }
   }
 
 }

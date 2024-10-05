@@ -1,107 +1,107 @@
 import { clients } from '../../../lib/Clients.mjs'
-import { QueryCommand, UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import { QueryCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
+import { randomUUID } from 'node:crypto';
 
 export async function handler(event) {
 
-  const { userId } = event.pathParameters;
-  const { appointmentId } = event.queryStringParameters;
-  const pk = `USER#${userId}`;
+  const { appointmentDate } = event.pathParameters;
 
-  const { appointmentDate,
+  const { newAppointmentDate,
+          userId,
+          appointmentId,
           name,
           phoneNumber,
           startsAt,
           endsAt,
           appointmentType,
           confirmed,
-          appointmentPayment} = JSON.parse(event.body);
-
-  if ([appointmentDate, name, phoneNumber, startsAt, endsAt, appointmentType].includes(undefined)) {
-    return {
-      statusCode: 404,
-      body: JSON.stringify({
-        error: 'Some fields are missing'
-      }),
-    };
-  };
-
+          appointmentPayment } = JSON.parse(event.body);
+          
   try {
+
+    const pk = `DATE#${newAppointmentDate ? newAppointmentDate : appointmentDate}`;
+    const sk = newAppointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
+    const gsi1pk = `USER#${userId}`;
+
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
-      KeyConditionExpression: "#userId = :userId",
-      FilterExpression: "#appointmentDate = :appointmentDate",
+      KeyConditionExpression: "#pk = :pk",
+      FilterExpression: "#gsi1pk = :gsi1pk",
       ExpressionAttributeValues: {
-        ":appointmentDate": appointmentDate,
-        ":userId": pk
+        ":gsi1pk": gsi1pk,
+        ":pk": pk
       },
       ExpressionAttributeNames: {
-        "#appointmentDate": "appointmentDate",
-        "#userId": "PK"
+        "#gsi1pk": "GSI1PK",
+        "#pk": "PK"
       }});
 
-      const appointments = await clients.dynamoClient.send(getDynamoCommand);
+    const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-      const verifyAppointments = appointments.Items
-      .filter(({ SK: id }) => id !== appointmentId)
-      .filter(({ startsAt: startN, endsAt: endN }) => {
-        const start = Number(startN);
-        const end = Number(endN);
-      
-        const newAppointmentOverlaps = 
-          (startsAt >= start && startsAt < end) ||   
-          (endsAt > start && endsAt <= end) ||       
-          (startsAt <= start && endsAt >= end);     
-
-        return newAppointmentOverlaps;
-      });
+    const verifyAppointments = appointments.Items
+    .filter(({ SK: id }) => id !== appointmentId)
+    .filter(({ startsAt: startN, endsAt: endN }) => {
+      const start = Number(startN);
+      const end = Number(endN);
     
-      if(verifyAppointments.length) {
+      const newAppointmentOverlaps = 
+        (startsAt >= start && startsAt < end) ||   
+        (endsAt > start && endsAt <= end) ||       
+        (startsAt <= start && endsAt >= end);     
+
+      return newAppointmentOverlaps;
+    });
+    
+    if(verifyAppointments.length) {
         return {
           statusCode: 409,
           body: JSON.stringify({
             error: 'An appointment already exists for this date.'
           }),
         };
-      };
-
-    const putDynamoCommand = new UpdateCommand({
-      TableName: 'SAppointmentsTable',
-      Key: {
-        PK: pk,
-        SK: appointmentId
-      },
-      ExpressionAttributeNames: {
-        "#appointmentDate": "appointmentDate",
-        "#name": "name",
-        "#phoneNumber": "phoneNumber",
-        "#startsAt": "startsAt",
-        "#endsAt": "endsAt",
-        "#appointmentType": "appointmentType",
-        "#confirmed": "confirmed",
-        "#appointmentPayment": "appointmentPayment",
-      },
-      ExpressionAttributeValues: {
-        ":appointmentDate": appointmentDate,
-        ":name": name,
-        ":phoneNumber": phoneNumber,
-        ":startsAt":  startsAt,
-        ":endsAt":  endsAt,
-        ":appointmentType": appointmentType,
-        ":confirmed": confirmed,
-        ":appointmentPayment":  appointmentPayment
-      },
-      UpdateExpression: "SET #appointmentDate = :appointmentDate, #name = :name, #phoneNumber = :phoneNumber, #startsAt = :startsAt, #endsAt = :endsAt, #appointmentType = :appointmentType, #confirmed = :confirmed, #appointmentPayment = :appointmentPayment"
-    });
-  
-    await clients.dynamoClient.send(putDynamoCommand);
+    };
     
+    const putDynamoCommand = new PutCommand({
+        TableName: 'SAppointmentsTable',
+        Item: {
+          PK:  pk,
+          SK: sk,
+          GSI1PK: gsi1pk,
+          GSI1SK: sk,
+          name: name,
+          phoneNumber: phoneNumber,
+          startsAt: startsAt,
+          endsAt: endsAt,
+          appointmentType: appointmentType,
+          confirmed: confirmed,
+          appointmentPayment: appointmentPayment
+        },
+      });
+      
+    await clients.dynamoClient.send(putDynamoCommand);
+      
+    if (newAppointmentDate && newAppointmentDate !== appointmentDate) {
+
+      const deleteDynamoCommand = new DeleteCommand({
+        TableName: 'SAppointmentsTable',
+        Key: {
+          PK: `DATE#${appointmentDate}`,
+          SK: `APPO#${appointmentId}`
+        }
+      });
+    
+      await clients.dynamoClient.send(deleteDynamoCommand);
+
+    }
+
     return {
       statusCode: 204,
       body: null,
     };
     
   } catch (error) {
+
     console.log({
       user: userId,
       data: new Date(),
@@ -109,6 +109,11 @@ export async function handler(event) {
       name: error.name,
       instanceType: error.constructor.name
     });
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({'error': 'Internal server error'})
+    }
   }
 
 }

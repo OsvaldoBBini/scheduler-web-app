@@ -6,11 +6,10 @@ describe('delete', () => {
   it('Should be able to delete an appointment', async () => {
 
     const event = {
-      pathParameters: {
-        userId: '2',
-      },
       body: JSON.stringify({
-        appointmentId: 'APPO#0000001'
+        userId: '2',
+        appointmentId: 'APPO#0000001',
+        appointmentDate: 'DATE#23-05-2051'
       })
     };
 

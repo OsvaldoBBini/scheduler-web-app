@@ -7,10 +7,10 @@ describe('show', () => {
 
     const event = {
       pathParameters: {
-        userId: '3',
+        appointmentDate: '23-05-2052'
       },
       queryStringParameters: {
-        appointmentDate: '23/05/2050'
+        userId: '3',
       }
     };
 

@@ -3,9 +3,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#1',
+      PK: 'DATE#23-05-2050',
       SK: 'APPO#0000001',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#1',
+      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -19,9 +20,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#2',
+      PK: 'DATE#23-05-2051',
       SK: 'APPO#0000001',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#2',
+      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -35,9 +37,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#3',
+      PK: 'DATE#23-05-2052',
       SK: 'APPO#0000001',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#3',
+      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -51,9 +54,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#4',
+      PK: 'DATE#23-05-2053',
       SK: 'APPO#0000001',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -67,9 +71,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#4',
+      PK: 'DATE#23-05-2053',
       SK: 'APPO#0000002',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000002',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  120,
@@ -83,9 +88,10 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'USER#4',
+      PK: 'DATE#23-05-2053',
       SK: 'APPO#0000003',
-      appointmentDate: '23/05/2050',
+      GSI1PK: 'USER#4',
+      GSI1SK: 'APPO#0000003',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  180,

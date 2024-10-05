@@ -3,17 +3,14 @@ import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
 
 export async function handler(event) {
   
-  const { userId } = event.pathParameters;
-  const pk = `USER#${userId}`;
-  
-  const { appointmentId } = JSON.parse(event.body);
+  const { userId, appointmentId, appointmentDate } = JSON.parse(event.body);
 
   try {
     const deleteDynamoCommand = new DeleteCommand({
       TableName: 'SAppointmentsTable',
       Key: {
-        PK: pk,
-        SK: appointmentId
+        PK: `DATE#${appointmentDate}`,
+        SK: `APPO#${appointmentId}`
       }
     });
   
@@ -25,6 +22,7 @@ export async function handler(event) {
     };
 
   } catch (error) {
+
     console.log({
       user: userId,
       data: new Date(),
@@ -32,6 +30,12 @@ export async function handler(event) {
       name: error.name,
       instanceType: error.constructor.name
     });
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({'error': 'Internal server error'})
+    }
+
   }
 
 }

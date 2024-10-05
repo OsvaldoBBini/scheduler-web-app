@@ -12,9 +12,9 @@ describe('create', () => {
     const randomYear = generateRandomNumber(2024, 2040);
 
     const event = {
-      pathParameters: { userId: '1' },
       body: JSON.stringify({
-      appointmentDate: `${randomDay}/${randomMonth}/${randomYear}`,
+      userId: '1',
+      appointmentDate: `${randomDay}-${randomMonth}-${randomYear}`,
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
       startsAt: 480,
@@ -29,31 +29,12 @@ describe('create', () => {
     expect(statusCode).toBe(204);
   });
 
-  it('Should not be able to create an appointment with missing props', async () => {
-
-    const event = {
-      pathParameters: { userId: '1' },
-      body: JSON.stringify({
-      appointmentDate: '24/05/2001',
-      name: 'Osvaldo Bazzan',
-      phoneNumber: '9999999999',
-      appointmentType: 'Curso',
-      confirmed: false,
-      appointmentPayment: 50
-    })};
-
-    const { body } = await handler(event);
-    const { error } = JSON.parse(body);
-
-    expect(error).toBe('Some fields are missing');
-  });
-
   it('Should not to be able to create a conflicted appointment', async () => {
 
     const event = {
-      pathParameters: { userId: '1' },
       body: JSON.stringify({
-      appointmentDate: '23/05/2050',
+      userId: '1',
+      appointmentDate: '23-05-2050',
       name: 'John Doe',
       phoneNumber: '9999999999', 
       startsAt: 60,
