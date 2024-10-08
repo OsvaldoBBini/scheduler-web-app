@@ -3,10 +3,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2050',
+      PK: 'DATE#23-05-2050USER#1',
       SK: 'APPO#0000001',
-      GSI1PK: 'USER#1',
-      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -20,10 +18,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2051',
+      PK: 'DATE#23-05-2051USER#2',
       SK: 'APPO#0000001',
-      GSI1PK: 'USER#2',
-      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -37,10 +33,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2052',
+      PK: 'DATE#23-05-2052USER#3',
       SK: 'APPO#0000001',
-      GSI1PK: 'USER#3',
-      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -54,10 +48,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2053',
+      PK: 'DATE#23-05-2053USER#4',
       SK: 'APPO#0000001',
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  60,
@@ -71,10 +63,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2053',
+      PK: 'DATE#23-05-2053USER#4',
       SK: 'APPO#0000002',
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000002',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  120,
@@ -88,10 +78,8 @@ export const SAinitialData = [
     TableName: 'SAppointmentsTable',
     Item: 
     {
-      PK: 'DATE#23-05-2053',
+      PK: 'DATE#23-05-2053USER#4',
       SK: 'APPO#0000003',
-      GSI1PK: 'USER#4',
-      GSI1SK: 'APPO#0000003',
       name: 'John Doe',
       phoneNumber: '999999999',
       startsAt:  180,

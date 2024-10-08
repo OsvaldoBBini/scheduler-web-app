@@ -6,9 +6,8 @@ describe('update', () => {
   it('Should be able to update an appointment', async () => {
 
     const event = {
-      pathParameters: { appointmentDate: '23-05-2053'},
+      pathParameters: {  userId: '4', appointmentDate: '23-05-2053'},
       body: JSON.stringify({
-      userId: '4',
       appointmentId: '0000001',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
@@ -27,9 +26,8 @@ describe('update', () => {
   it('Should not be able to update an appointment', async () => {
 
     const event = {
-      pathParameters: {appointmentDate: '23-05-2053'},
+      pathParameters: {userId: '4', appointmentDate: '23-05-2053'},
       body: JSON.stringify({
-      userId: '4',
       appointmentId: '0000003',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
@@ -49,10 +47,9 @@ describe('update', () => {
   it('Should be able to update appointment date', async () => {
 
     const event = {
-      pathParameters: {appointmentDate: '23-05-2053'},
+      pathParameters: { userId: '4', appointmentDate: '23-05-2053'},
       body: JSON.stringify({
       newAppointmentDate: '23-05-2054',
-      userId: '4',
       appointmentId: '0000003',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 

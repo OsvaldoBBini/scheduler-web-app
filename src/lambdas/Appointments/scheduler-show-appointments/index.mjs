@@ -3,25 +3,20 @@ import { QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 export async function handler(event) {
   
-  const { appointmentDate } = event.pathParameters;
-  const { userId } = event.queryStringParameters;
+  const { userId, appointmentDate } = event.pathParameters;
 
   try {
 
-    const pk = `DATE#${appointmentDate}`;
-    const gsi1pk = `USER#${userId}`;
+    const pk = `DATE#${appointmentDate}USER#${userId}`;
 
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#pk = :pk",
-      FilterExpression: "#gsi1pk = :gsi1pk",
       ExpressionAttributeValues: {
-        ":gsi1pk": gsi1pk,
         ":pk": pk
       },
       ExpressionAttributeNames: {
-        "#gsi1pk": "GSI1PK",
         "#pk": "PK"
       }});
   

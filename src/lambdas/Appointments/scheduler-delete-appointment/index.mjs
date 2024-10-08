@@ -9,7 +9,7 @@ export async function handler(event) {
     const deleteDynamoCommand = new DeleteCommand({
       TableName: 'SAppointmentsTable',
       Key: {
-        PK: `DATE#${appointmentDate}`,
+        PK: `DATE#${appointmentDate}USER#${userId}`,
         SK: `APPO#${appointmentId}`
       }
     });

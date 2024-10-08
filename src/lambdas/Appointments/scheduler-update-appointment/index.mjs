@@ -4,10 +4,9 @@ import { randomUUID } from 'node:crypto';
 
 export async function handler(event) {
 
-  const { appointmentDate } = event.pathParameters;
+  const { userId, appointmentDate } = event.pathParameters;
 
   const { newAppointmentDate,
-          userId,
           appointmentId,
           name,
           phoneNumber,
@@ -19,21 +18,17 @@ export async function handler(event) {
           
   try {
 
-    const pk = `DATE#${newAppointmentDate ? newAppointmentDate : appointmentDate}`;
+    const pk = `DATE#${newAppointmentDate ? newAppointmentDate : appointmentDate}USER#${userId}`;
     const sk = newAppointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
-    const gsi1pk = `USER#${userId}`;
 
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#pk = :pk",
-      FilterExpression: "#gsi1pk = :gsi1pk",
       ExpressionAttributeValues: {
-        ":gsi1pk": gsi1pk,
         ":pk": pk
       },
       ExpressionAttributeNames: {
-        "#gsi1pk": "GSI1PK",
         "#pk": "PK"
       }});
 
@@ -67,8 +62,6 @@ export async function handler(event) {
         Item: {
           PK:  pk,
           SK: sk,
-          GSI1PK: gsi1pk,
-          GSI1SK: sk,
           name: name,
           phoneNumber: phoneNumber,
           startsAt: startsAt,
@@ -86,7 +79,7 @@ export async function handler(event) {
       const deleteDynamoCommand = new DeleteCommand({
         TableName: 'SAppointmentsTable',
         Key: {
-          PK: `DATE#${appointmentDate}`,
+          PK: `DATE#${appointmentDate}USER#${userId}`,
           SK: `APPO#${appointmentId}`
         }
       });

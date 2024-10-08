@@ -17,21 +17,17 @@ export async function handler(event) {
   
   try {
     
-    const pk = `DATE#${appointmentDate}`;
+    const pk = `DATE#${appointmentDate}USER#${userId}`;
     const sk = `APPO#${randomUUID()}`;
-    const gsi1pk = `USER#${userId}`;
     
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#pk = :pk",
-      FilterExpression: "#gsi1pk = :gsi1pk",
       ExpressionAttributeValues: {
-        ":gsi1pk": gsi1pk,
         ":pk": pk
       },
       ExpressionAttributeNames: {
-        "#gsi1pk": "GSI1PK",
         "#pk": "PK"
       }});
       
@@ -63,8 +59,6 @@ export async function handler(event) {
       Item: {
         PK:  pk,
         SK: sk,
-        GSI1PK: gsi1pk,
-        GSI1SK: sk,
         name: name,
         phoneNumber: phoneNumber,
         startsAt: startsAt,
