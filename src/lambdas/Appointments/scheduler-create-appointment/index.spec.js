@@ -20,7 +20,6 @@ describe('create', () => {
       startsAt: 480,
       endsAt: 540,
       appointmentType: 'Curso',
-      confirmed: false,
       appointmentPayment: 50
     })};
 
@@ -40,7 +39,6 @@ describe('create', () => {
       startsAt: 60,
       endsAt: 120,
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment: 50
     })};
 
