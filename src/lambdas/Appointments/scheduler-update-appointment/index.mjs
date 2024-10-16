@@ -1,5 +1,5 @@
 import { clients } from '../../../lib/Clients.mjs'
-import { QueryCommand, PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
 
 export async function handler(event) {
@@ -21,41 +21,41 @@ export async function handler(event) {
     const pk = `DATE#${newAppointmentDate ? newAppointmentDate : appointmentDate}USER#${userId}`;
     const sk = newAppointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
 
-    const getDynamoCommand = new QueryCommand({
-      TableName: "SAppointmentsTable",
-      ScanIndexForward: true,
-      KeyConditionExpression: "#pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": pk
-      },
-      ExpressionAttributeNames: {
-        "#pk": "PK"
-      }});
+    // const getDynamoCommand = new QueryCommand({
+    //   TableName: "SAppointmentsTable",
+    //   ScanIndexForward: true,
+    //   KeyConditionExpression: "#pk = :pk",
+    //   ExpressionAttributeValues: {
+    //     ":pk": pk
+    //   },
+    //   ExpressionAttributeNames: {
+    //     "#pk": "PK"
+    //   }});
 
-    const appointments = await clients.dynamoClient.send(getDynamoCommand);
+    // const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
-    const verifyAppointments = appointments.Items
-    .filter(({ SK: id }) => id !== appointmentId)
-    .filter(({ startsAt: startN, endsAt: endN }) => {
-      const start = Number(startN);
-      const end = Number(endN);
+    // const verifyAppointments = appointments.Items
+    // .filter(({ SK: id }) => id !== appointmentId)
+    // .filter(({ startsAt: startN, endsAt: endN }) => {
+    //   const start = Number(startN);
+    //   const end = Number(endN);
     
-      const newAppointmentOverlaps = 
-        (startsAt >= start && startsAt < end) ||   
-        (endsAt > start && endsAt <= end) ||       
-        (startsAt <= start && endsAt >= end);     
+    //   const newAppointmentOverlaps = 
+    //     (startsAt >= start && startsAt < end) ||   
+    //     (endsAt > start && endsAt <= end) ||       
+    //     (startsAt <= start && endsAt >= end);     
 
-      return newAppointmentOverlaps;
-    });
+    //   return newAppointmentOverlaps;
+    // });
     
-    if(verifyAppointments.length) {
-        return {
-          statusCode: 409,
-          body: JSON.stringify({
-            error: 'An appointment already exists for this date.'
-          }),
-        };
-    };
+    // if(verifyAppointments.length) {
+    //     return {
+    //       statusCode: 409,
+    //       body: JSON.stringify({
+    //         error: 'An appointment already exists for this date.'
+    //       }),
+    //     };
+    // };
     
     const putDynamoCommand = new PutCommand({
         TableName: 'SAppointmentsTable',

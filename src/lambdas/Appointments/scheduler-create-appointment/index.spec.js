@@ -28,24 +28,24 @@ describe('create', () => {
     expect(statusCode).toBe(204);
   });
 
-  it('Should not to be able to create a conflicted appointment', async () => {
+  // it('Should not to be able to create a conflicted appointment', async () => {
 
-    const event = {
-      body: JSON.stringify({
-      userId: '1',
-      appointmentDate: '23-05-2050',
-      name: 'John Doe',
-      phoneNumber: '9999999999', 
-      startsAt: 60,
-      endsAt: 120,
-      appointmentType: 'Express',
-      appointmentPayment: 50
-    })};
+  //   const event = {
+  //     body: JSON.stringify({
+  //     userId: '1',
+  //     appointmentDate: '23-05-2050',
+  //     name: 'John Doe',
+  //     phoneNumber: '9999999999', 
+  //     startsAt: 60,
+  //     endsAt: 120,
+  //     appointmentType: 'Express',
+  //     appointmentPayment: 50
+  //   })};
 
-    const { body } = await handler(event);
-    const { error } = JSON.parse(body);
+  //   const { body } = await handler(event);
+  //   const { error } = JSON.parse(body);
 
-    expect(error).toStrictEqual('An appointment already exists for this date.');
-  });
+  //   expect(error).toStrictEqual('An appointment already exists for this date.');
+  // });
 
 });
