@@ -5,7 +5,7 @@ export async function handler(event) {
 
   const { userId } = event.pathParameters; 
   const { appointmentTypeId } = event.queryStringParameters;
-  const pk = `USER${userId}`;
+  const pk = `USER#${userId}`;
 
   const { appointmentTypeName, appointmentTypePrice } = JSON.parse(event.body);
 
@@ -24,7 +24,7 @@ export async function handler(event) {
       TableName: 'SAppointmentsTable',
       Key: {
         PK: pk,
-        SK: appointmentTypeId
+        SK: `TYPE#${appointmentTypeId}`
       },
       ExpressionAttributeNames: {
         "#appointmentTypeName": "appointmentTypeName",

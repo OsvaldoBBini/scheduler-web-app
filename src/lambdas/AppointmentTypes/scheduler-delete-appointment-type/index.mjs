@@ -13,7 +13,7 @@ export async function handler(event) {
       TableName: 'SAppointmentsTable',
       Key: {
         PK: pk,
-        SK: appointmentTypeId
+        SK: `TYPE#${appointmentTypeId}`
       }
     });
     

@@ -10,7 +10,7 @@ describe('delete ST', () => {
         userId: '2',
       },
       body: JSON.stringify({
-        appointmentTypeId: 'TYPE#0000001'
+        appointmentTypeId: '0000001'
       })
     };
 

@@ -7,7 +7,7 @@ describe('update ST', () => {
 
     const event = {
       pathParameters: { userId: '1' },
-      queryStringParameters: { appointmentTypeId: 'TYPE#0000001'},
+      queryStringParameters: { appointmentTypeId: '0000001'},
       body: JSON.stringify({
         appointmentTypeName: 'Social',
         appointmentTypePrice: 130
