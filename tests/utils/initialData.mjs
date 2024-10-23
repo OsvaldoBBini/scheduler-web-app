@@ -7,8 +7,8 @@ export const SAinitialData = [
       SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  60,
-      endsAt:  120,
+      startsAt:  "01:00",
+      endsAt:  "02:00",
       appointmentType: 'Express',
       confirmed: false,
       appointmentPayment:  '120'
@@ -22,11 +22,11 @@ export const SAinitialData = [
       SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  60,
-      endsAt:  120,
+      startsAt:  "01:00",
+      endsAt:  "02:00",
       appointmentType: 'Express',
       confirmed: false,
-      appointmentPayment:  120
+      appointmentPayment:  '120'
     },
   },
   {
@@ -37,11 +37,11 @@ export const SAinitialData = [
       SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  60,
-      endsAt:  120,
+      startsAt:  "01:00",
+      endsAt:  "02:00",
       appointmentType: 'Express',
       confirmed: false,
-      appointmentPayment:  120
+      appointmentPayment:  '120'
     },
   },
   {
@@ -52,11 +52,11 @@ export const SAinitialData = [
       SK: 'APPO#0000001',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  60,
-      endsAt:  120,
+      startsAt:  "01:00",
+      endsAt:  "02:00",
       appointmentType: 'Express',
       confirmed: false,
-      appointmentPayment:  120
+      appointmentPayment: '120'
     },
   },
   {
@@ -67,11 +67,11 @@ export const SAinitialData = [
       SK: 'APPO#0000002',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  120,
-      endsAt:  180,
+      startsAt:  "02:00",
+      endsAt:  "03:00",
       appointmentType: 'Express',
       confirmed: false,
-      appointmentPayment:  120
+      appointmentPayment:  '120'
     },
   },
   {
@@ -82,11 +82,11 @@ export const SAinitialData = [
       SK: 'APPO#0000003',
       name: 'John Doe',
       phoneNumber: '999999999',
-      startsAt:  180,
-      endsAt:  240,
+      startsAt:  "02:00",
+      endsAt:  "04:00",
       appointmentType: 'Express',
       confirmed: false,
-      appointmentPayment:  120
+      appointmentPayment:  '120'
     },
   },
 ]
@@ -99,7 +99,7 @@ export const STinitialData = [
       PK: 'USER#1',
       SK: 'TYPE#0000001', 
       appointmentTypeName: 'Express', 
-      appointmentTypePrice:  90, 
+      appointmentTypePrice:  '90', 
     }
   },
   {
@@ -109,7 +109,7 @@ export const STinitialData = [
       PK: 'USER#2',
       SK: 'TYPE#0000001',
       appointmentTypeName: 'Curso', 
-      appointmentTypePrice:  800, 
+      appointmentTypePrice:  '800', 
     }
   },
   {
@@ -119,7 +119,7 @@ export const STinitialData = [
       PK: 'USER#3',
       SK: 'TYPE#0000001', 
       appointmentTypeName: 'Express', 
-      appointmentTypePrice:  90, 
+      appointmentTypePrice:  '90', 
     }
   }
 ]

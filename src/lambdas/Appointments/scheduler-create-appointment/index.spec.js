@@ -17,8 +17,8 @@ describe('create', () => {
       appointmentDate: `${randomDay}-${randomMonth}-${randomYear}`,
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
-      startsAt: 480,
-      endsAt: 540,
+      startsAt: '14:00',
+      endsAt: '15:00',
       appointmentType: 'Curso',
       appointmentPayment: 50
     })};

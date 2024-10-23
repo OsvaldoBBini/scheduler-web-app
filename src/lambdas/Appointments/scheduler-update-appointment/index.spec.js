@@ -11,8 +11,8 @@ describe('update', () => {
       appointmentId: '0000001',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
-      startsAt: 240,
-      endsAt: 300,
+      startsAt: '09:00',
+      endsAt: '10:00',
       appointmentType: 'Express',
       confirmed: true,
       appointmentPayment: 50
@@ -53,8 +53,8 @@ describe('update', () => {
       appointmentId: '0000003',
       name: 'Osvaldo Bazzan',
       phoneNumber: '9999999999', 
-      startsAt: 120,
-      endsAt: 180,
+      startsAt: '05:00',
+      endsAt: '06:00',
       appointmentType: 'Express',
       confirmed: false,
       appointmentPayment: 50
