@@ -9,7 +9,7 @@ describe('delete', () => {
       body: JSON.stringify({
         userId: '2',
         appointmentId: 'APPO#0000001',
-        appointmentDate: 'DATE#23-05-2051'
+        appointmentDate: '23-05-2051'
       })
     };
 

@@ -18,8 +18,8 @@ export async function handler(event) {
           
   try {
 
-    const pk = `DATE#${newAppointmentDate ? newAppointmentDate : appointmentDate}USER#${userId}`;
-    const sk = newAppointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
+    const pk = `DATE#${newAppointmentDate !== appointmentDate ? newAppointmentDate : appointmentDate}USER#${userId}`;
+    const sk = newAppointmentDate !== appointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
 
     // const getDynamoCommand = new QueryCommand({
     //   TableName: "SAppointmentsTable",

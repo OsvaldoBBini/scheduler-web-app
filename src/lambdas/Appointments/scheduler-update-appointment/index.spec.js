@@ -15,7 +15,8 @@ describe('update', () => {
       endsAt: '10:00',
       appointmentType: 'Express',
       confirmed: true,
-      appointmentPayment: 50
+      appointmentPayment: 50,
+      newAppointmentDate: '23-05-2053'
     })};
 
     const { statusCode } = await handler(event);
