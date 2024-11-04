@@ -14,7 +14,6 @@ describe('update', () => {
       startsAt: '09:00',
       endsAt: '10:00',
       appointmentType: 'Express',
-      confirmed: true,
       appointmentPayment: 50,
       newAppointmentDate: '23-05-2053'
     })};

@@ -63,7 +63,6 @@ export async function handler(event) {
         startsAt: startsAt,
         endsAt: endsAt,
         appointmentType: appointmentType,
-        confirmed: false,
         appointmentPayment: appointmentPayment
       },
     });

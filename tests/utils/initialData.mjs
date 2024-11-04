@@ -10,7 +10,6 @@ export const SAinitialData = [
       startsAt:  "01:00",
       endsAt:  "02:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment:  '120'
     },
   },
@@ -25,7 +24,6 @@ export const SAinitialData = [
       startsAt:  "01:00",
       endsAt:  "02:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment:  '120'
     },
   },
@@ -40,7 +38,6 @@ export const SAinitialData = [
       startsAt:  "01:00",
       endsAt:  "02:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment:  '120'
     },
   },
@@ -55,7 +52,6 @@ export const SAinitialData = [
       startsAt:  "01:00",
       endsAt:  "02:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment: '120'
     },
   },
@@ -70,7 +66,6 @@ export const SAinitialData = [
       startsAt:  "02:00",
       endsAt:  "03:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment:  '120'
     },
   },
@@ -85,7 +80,6 @@ export const SAinitialData = [
       startsAt:  "02:00",
       endsAt:  "04:00",
       appointmentType: 'Express',
-      confirmed: false,
       appointmentPayment:  '120'
     },
   },

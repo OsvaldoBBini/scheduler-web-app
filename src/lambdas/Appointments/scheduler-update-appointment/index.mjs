@@ -13,7 +13,6 @@ export async function handler(event) {
           startsAt,
           endsAt,
           appointmentType,
-          confirmed,
           appointmentPayment } = JSON.parse(event.body);
           
   try {
@@ -67,7 +66,6 @@ export async function handler(event) {
           startsAt: startsAt,
           endsAt: endsAt,
           appointmentType: appointmentType,
-          confirmed: confirmed,
           appointmentPayment: appointmentPayment
         },
       });
