@@ -10,7 +10,7 @@ describe('update', () => {
       body: JSON.stringify({
       appointmentId: '0000001',
       name: 'Osvaldo Bazzan',
-      phoneNumber: '9999999999', 
+      contact: '9999999999', 
       startsAt: '09:00',
       endsAt: '10:00',
       appointmentType: 'Express',
@@ -30,7 +30,7 @@ describe('update', () => {
   //     body: JSON.stringify({
   //     appointmentId: '0000003',
   //     name: 'Osvaldo Bazzan',
-  //     phoneNumber: '9999999999', 
+  //     contact: '9999999999', 
   //     startsAt: 120,
   //     endsAt: 180,
   //     appointmentType: 'Express',
@@ -52,7 +52,7 @@ describe('update', () => {
       newAppointmentDate: '23-05-2054',
       appointmentId: '0000003',
       name: 'Osvaldo Bazzan',
-      phoneNumber: '9999999999', 
+      contact: '9999999999', 
       startsAt: '05:00',
       endsAt: '06:00',
       appointmentType: 'Express',
