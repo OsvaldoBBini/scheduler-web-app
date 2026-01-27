@@ -48,6 +48,21 @@
     "@smithy/util-utf8" "^2.0.0"
     tslib "^2.6.2"
 
+"@aws-lambda-powertools/commons@2.30.2":
+  version "2.30.2"
+  resolved "https://registry.yarnpkg.com/@aws-lambda-powertools/commons/-/commons-2.30.2.tgz#147624901d08886be77e2a380feff1e8a1f1e026"
+  integrity sha512-bhhrpUdCfpBGKllJfGyi5faf12mh6tjYmOf5DALgIym89NkidFphPdZtWl5l6IN1YhgO8HWPX4Yvmi4tPBE/uw==
+  dependencies:
+    "@aws/lambda-invoke-store" "0.2.3"
+
+"@aws-lambda-powertools/logger@^2.30.2":
+  version "2.30.2"
+  resolved "https://registry.yarnpkg.com/@aws-lambda-powertools/logger/-/logger-2.30.2.tgz#f85aa0315a032053365366e0716c1d2fcedd19be"
+  integrity sha512-BSh2hPcnYUJNn/Olwby4LpHbUWePKuSKtfNeTBXAn+op3OcC7kx7CHSqc5PYGW7x2T8uliE1IuGB5vQz2gBeDQ==
+  dependencies:
+    "@aws-lambda-powertools/commons" "2.30.2"
+    "@aws/lambda-invoke-store" "0.2.3"
+
 "@aws-sdk/client-cognito-identity-provider@^3.654.0":
   version "3.654.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-cognito-identity-provider/-/client-cognito-identity-provider-3.654.0.tgz#67cfc4f5f5bec684300ad6601307359f7704a0ed"
@@ -878,6 +893,11 @@
     "@smithy/node-config-provider" "^3.1.7"
     "@smithy/types" "^3.4.2"
     tslib "^2.6.2"
+
+"@aws/lambda-invoke-store@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@aws/lambda-invoke-store/-/lambda-invoke-store-0.2.3.tgz#f1137f56209ccc69c15f826242cbf37f828617dd"
+  integrity sha512-oLvsaPMTBejkkmHhjf09xTgk71mOqyr/409NKhRIL08If7AhVfUsJhVsx386uJaqNd42v9kWamQ9lFbkoC2dYw==
 
 "@esbuild/aix-ppc64@0.21.5":
   version "0.21.5"
@@ -3566,3 +3586,8 @@ zip-stream@^4.1.0:
     archiver-utils "^3.0.4"
     compress-commons "^4.1.2"
     readable-stream "^3.6.0"
+
+zod@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.3.6.tgz#89c56e0aa7d2b05107d894412227087885ab112a"
+  integrity sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==
