@@ -1,9 +1,18 @@
-import { expect, it, describe } from 'vitest'
+import { expect, it, describe, beforeEach } from 'vitest'
 import { handler } from './index.mjs';
 import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
+import { mockClient } from "aws-sdk-client-mock";
+import { clients } from '../../../lib/Clients.mjs';
+import { PutCommand } from "@aws-sdk/lib-dynamodb";
 
+const ddbMock = mockClient(clients.dynamoClient);
 
 describe('create', () => {
+
+  beforeEach(() => {
+    ddbMock.reset();
+    ddbMock.on(PutCommand).resolves({});
+  });
 
   it('Should be able to create an appointment', async () => {
 
@@ -23,29 +32,10 @@ describe('create', () => {
       appointmentPayment: 50
     })};
 
-    const { statusCode } = await handler(event);
+    const { statusCode, body } = await handler(event);
 
-    expect(statusCode).toBe(204);
+    expect(statusCode).toBe(201);
+    expect(body.appointmentId).toBeDefined();
   });
-
-  // it('Should not to be able to create a conflicted appointment', async () => {
-
-  //   const event = {
-  //     body: JSON.stringify({
-  //     userId: '1',
-  //     appointmentDate: '23-05-2050',
-  //     name: 'John Doe',
-  //     contact: '9999999999', 
-  //     startsAt: 60,
-  //     endsAt: 120,
-  //     appointmentType: 'Express',
-  //     appointmentPayment: 50
-  //   })};
-
-  //   const { body } = await handler(event);
-  //   const { error } = JSON.parse(body);
-
-  //   expect(error).toStrictEqual('An appointment already exists for this date.');
-  // });
 
 });

@@ -13,14 +13,13 @@ const createAppointmentSchema = z.object({
   startsAt: z.string(),
   endsAt: z.string(),
   appointmentType: z.string(),
-  appointmentPayment: z.string(),
+  appointmentPayment: z.number().positive(),
 });
 
 const logger = new Logger({ serviceName: 'createAppointment' });
 const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
-  
   
   try {
     const { 
@@ -56,8 +55,8 @@ export async function handler(event) {
     await clients.dynamoClient.send(putDynamoCommand);
     
     return {
-      statusCode: 204,
-      body: null,
+      statusCode: 201,
+      body: { appointmentId: sk },
     };
 
   } catch (e) {
