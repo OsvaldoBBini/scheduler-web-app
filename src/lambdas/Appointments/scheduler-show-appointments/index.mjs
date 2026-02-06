@@ -1,45 +1,49 @@
 import { clients } from '../../../lib/Clients.mjs';
 import { QueryCommand } from '@aws-sdk/lib-dynamodb';
+import z from "zod";
+import {ErrorManager} from "../../../errors/errorManager.mjs";
+import {Logger} from "@aws-lambda-powertools/logger";
+
+const getAppointments = z.object({
+  userId: z.string(),
+  appointmentDate: z.string(),
+})
+
+const logger = new Logger({ serviceName: 'createAppointment' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
-  
-  const { userId, appointmentDate } = event.pathParameters;
 
   try {
-
+    const { userId, appointmentDate } = getAppointments.parse(event.pathParameters);
     const pk = `DATE#${appointmentDate}USER#${userId}`;
 
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",
       ScanIndexForward: true,
       KeyConditionExpression: "#pk = :pk",
-      ExpressionAttributeValues: {
-        ":pk": pk
-      },
-      ExpressionAttributeNames: {
-        "#pk": "PK"
-      }});
+      ExpressionAttributeValues: { ":pk": pk },
+      ExpressionAttributeNames: { "#pk": "PK" }});
   
     const appointments = await clients.dynamoClient.send(getDynamoCommand);
 
+    const toDomainAppointments = appointments && appointments.map(appointment => ({
+      appointmentId: appointment.id,
+      name: appointment.name,
+      appointmentDate: appointment.date,
+      contact: appointment.contact,
+      startAt: appointment.startAt,
+      endsAt: appointment.endsAt,
+      appointmentType: appointment.appointmentType,
+      appointmentPayment: appointment.appointmentPayment,
+    }))
+
     return {
       statusCode: 201,
-      body: JSON.stringify(appointments),
+      body: JSON.stringify(toDomainAppointments),
     };
     
-  } catch (error) {
-
-    console.log({
-      user: userId,
-      data: new Date(),
-      message: error.message,
-      name: error.name,
-      instanceType: error.constructor.name
-    });
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({'error': 'Internal server error'})
-    }
+  } catch (e) {
+    return errorHandler(e);
   }
 }

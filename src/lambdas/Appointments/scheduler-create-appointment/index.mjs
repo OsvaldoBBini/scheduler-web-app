@@ -60,8 +60,7 @@ export async function handler(event) {
     };
 
   } catch (e) {
-    const errorResponse = errorHandler(e);
-    return errorResponse;
+    return errorHandler(e);
   }
 
 }
