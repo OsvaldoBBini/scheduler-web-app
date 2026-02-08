@@ -3,7 +3,6 @@ import { handler } from './index.mjs';
 import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
 import { mockClient } from "aws-sdk-client-mock";
 import { clients } from '../../../lib/Clients.mjs';
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
 
 const ddbMock = mockClient(clients.dynamoClient);
 
@@ -11,7 +10,6 @@ describe('create', () => {
 
   beforeEach(() => {
     ddbMock.reset();
-    ddbMock.on(PutCommand).resolves({});
   });
 
   it('Should be able to create an appointment', async () => {

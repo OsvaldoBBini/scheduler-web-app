@@ -25,18 +25,26 @@ export async function handler(event) {
       ExpressionAttributeValues: { ":pk": pk },
       ExpressionAttributeNames: { "#pk": "PK" }});
   
-    const appointments = await clients.dynamoClient.send(getDynamoCommand);
+    const { Items: items } = await clients.dynamoClient.send(getDynamoCommand);
 
-    const toDomainAppointments = appointments && appointments.map(appointment => ({
-      appointmentId: appointment.id,
-      name: appointment.name,
-      appointmentDate: appointment.date,
-      contact: appointment.contact,
-      startAt: appointment.startAt,
-      endsAt: appointment.endsAt,
-      appointmentType: appointment.appointmentType,
-      appointmentPayment: appointment.appointmentPayment,
-    }))
+    const toDomainAppointments = items && items.map(appointment => {
+
+      const splitedPk = appointment.PK.split('#');
+      const userId = splitedPk[3];
+      const appointmentDate = splitedPk[1];
+
+      return {
+        userId: userId,
+        appointmentDate: appointmentDate,
+        appointmentId: appointment.SK.split('#')[-1],
+        name: appointment.name,
+        contact: appointment.contact,
+        startAt: appointment.startAt,
+        endsAt: appointment.endsAt,
+        appointmentType: appointment.appointmentType,
+        appointmentPayment: appointment.appointmentPayment,
+      }
+    });
 
     return {
       statusCode: 201,

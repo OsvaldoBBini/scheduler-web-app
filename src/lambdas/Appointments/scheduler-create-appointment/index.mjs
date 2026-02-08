@@ -32,7 +32,7 @@ export async function handler(event) {
       appointmentType,
       appointmentPayment } = createAppointmentSchema.parse(JSON.parse(event.body));
     
-    const pk = `DATE#${appointmentDate}USER#${userId}`;
+    const pk = `DATE#${appointmentDate}#USER#${userId}`;
     const sk = `APPO#${randomUUID()}`;
     
     const putDynamoCommand = new PutCommand({
