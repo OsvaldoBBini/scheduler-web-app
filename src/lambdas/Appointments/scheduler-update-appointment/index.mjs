@@ -1,66 +1,57 @@
 import { clients } from '../../../lib/Clients.mjs'
 import { PutCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
+import z from 'zod';
+import { Logger } from '@aws-lambda-powertools/logger';
+import { ErrorManager } from '../../../errors/errorManager.mjs';
+
+const updateAppointmentPathParametersSchema = z.object({
+  userId: z.string(),
+  appointmentDate: z.string().regex(/^\d{2}-\d{2}-\d{4}$/)
+})
+
+const updateAppointmentBodySchema = z.object({
+  newAppointmentDate: z.string().regex(/^\d{2}-\d{2}-\d{4}$/),
+  appointmentId: z.string(),
+  name: z.string(),
+  contact: z.string(),
+  startsAt: z.string(),
+  endsAt: z.string(),
+  appointmentType: z.string(),
+  appointmentPayment: z.number().positive(), 
+})
+
+const logger = new Logger({ serviceName: 'updateAppointment' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
 
-  const { userId, appointmentDate } = event.pathParameters;
-
-  const { newAppointmentDate,
-          appointmentId,
-          name,
-          contact,
-          startsAt,
-          endsAt,
-          appointmentType,
-          appointmentPayment } = JSON.parse(event.body);
-          
   try {
 
+    const { userId, appointmentDate } = updateAppointmentPathParametersSchema.parse(event.pathParameters);
+  
+    const { newAppointmentDate,
+            appointmentId,
+            name,
+            contact,
+            startsAt,
+            endsAt,
+            appointmentType,
+            appointmentPayment } = updateAppointmentBodySchema.parse(JSON.parse(event.body));
+    
     const pk = `DATE#${newAppointmentDate !== appointmentDate ? newAppointmentDate : appointmentDate}USER#${userId}`;
     const sk = newAppointmentDate !== appointmentDate ? `APPO#${randomUUID()}` : `APPO#${appointmentId}`;
 
-    // const getDynamoCommand = new QueryCommand({
-    //   TableName: "SAppointmentsTable",
-    //   ScanIndexForward: true,
-    //   KeyConditionExpression: "#pk = :pk",
-    //   ExpressionAttributeValues: {
-    //     ":pk": pk
-    //   },
-    //   ExpressionAttributeNames: {
-    //     "#pk": "PK"
-    //   }});
-
-    // const appointments = await clients.dynamoClient.send(getDynamoCommand);
-
-    // const verifyAppointments = appointments.Items
-    // .filter(({ SK: id }) => id !== appointmentId)
-    // .filter(({ startsAt: startN, endsAt: endN }) => {
-    //   const start = Number(startN);
-    //   const end = Number(endN);
-    
-    //   const newAppointmentOverlaps = 
-    //     (startsAt >= start && startsAt < end) ||   
-    //     (endsAt > start && endsAt <= end) ||       
-    //     (startsAt <= start && endsAt >= end);     
-
-    //   return newAppointmentOverlaps;
-    // });
-    
-    // if(verifyAppointments.length) {
-    //     return {
-    //       statusCode: 409,
-    //       body: JSON.stringify({
-    //         error: 'An appointment already exists for this date.'
-    //       }),
-    //     };
-    // };
+    const month = newAppointmentDate !== appointmentDate ? newAppointmentDate.split('-')[1] : appointmentDate.split('-')[1];
+    const year = newAppointmentDate !== appointmentDate ? newAppointmentDate.split('-')[2] : appointmentDate.split('-')[2];
+    const gsi1sk = `MONTH#${month}#YEAR#${year}`;
     
     const putDynamoCommand = new PutCommand({
         TableName: 'SAppointmentsTable',
         Item: {
           PK:  pk,
           SK: sk,
+          GSI1SK: gsi1sk,
           name: name,
           contact: contact,
           startsAt: startsAt,
@@ -87,24 +78,12 @@ export async function handler(event) {
     }
 
     return {
-      statusCode: 204,
-      body: null,
+      statusCode: 201,
+      body: { appointmentId: sk },
     };
     
-  } catch (error) {
-
-    console.log({
-      user: userId,
-      data: new Date(),
-      message: error.message,
-      name: error.name,
-      instanceType: error.constructor.name
-    });
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({'error': 'Internal server error'})
-    }
+  } catch (e) {
+    return errorHandler(e);
   }
 
 }

@@ -7,7 +7,7 @@ import z from 'zod'
 
 const createAppointmentSchema = z.object({
   userId: z.string(),
-  appointmentDate: z.string(),
+  appointmentDate: z.string().regex(/^\d{2}-\d{2}-\d{4}$/),
   name: z.string(),
   contact: z.string(),
   startsAt: z.string(),
