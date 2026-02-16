@@ -40,7 +40,6 @@ describe('create', () => {
 
     const event = {
       body: JSON.stringify({
-        // missing userId and appointmentPayment is negative
         appointmentDate: `1-1-2025`,
         name: 'Invalid',
         contact: '000',

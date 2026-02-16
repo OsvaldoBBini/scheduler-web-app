@@ -22,7 +22,8 @@ describe('show', () => {
     const event = {
       pathParameters: {
         userId: 'user-id',
-        appointmentDate: '01-01-2026'
+        month: '01',
+        year: '2026'
       }
     };
 
@@ -32,6 +33,23 @@ describe('show', () => {
     expect(appointments[0].userId).toBe('user-id');
     expect(appointments[0].appointmentDate).toBe('01-01-2026');
     expect(appointments[0].name).toBe('test-user');
+  });
+
+  it('Should throw an error if year is missing', async () => {
+
+    const dbMock = defaultAppointment();
+
+    ddbMock.on(QueryCommand).resolves({Items: [dbMock], Count: 1})
+
+    const event = {
+      pathParameters: {
+        userId: 'user-id',
+        month: '01',
+      }
+    };
+
+    const { body } = await handler(event);
+    expect(body).toStrictEqual('{"message":{"errors":[],"properties":{"year":{"errors":["Invalid input: expected string, received undefined"]}}}}');
   });
 
 });

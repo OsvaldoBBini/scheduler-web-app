@@ -34,14 +34,19 @@ export async function handler(event) {
     
     const pk = `DATE#${appointmentDate}#USER#${userId}`;
     const sk = `APPO#${randomUUID()}`;
+
+    const month = appointmentDate.split('-')[1];
+    const year = appointmentDate.split('-')[2];
+
+    const gsi1sk = `MONTH#${month}#YEAR#${year}`;
     
     const putDynamoCommand = new PutCommand({
       TableName: 'SAppointmentsTable',
       Item: {
         PK: pk,
         SK: sk,
-        GSI1PK: 'APPOINTMENT',
-        GSI1SK: appointmentDate,
+        GSI1PK: `APPOINTMENT#USER#${userId}`,
+        GSI1SK: gsi1sk,
         name: name,
         contact: contact,
         startsAt: startsAt,
