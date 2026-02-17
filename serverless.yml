@@ -21,7 +21,7 @@ provider:
           - !Ref SAUserPoolClient
     cors: 
       allowedOrigins:
-        - ${env:ALLOWED_ORIGIN}
+        - https://dzzytol1hhaht.cloudfront.net
       allowedHeaders:
         - Content-Type
         - Authorization
