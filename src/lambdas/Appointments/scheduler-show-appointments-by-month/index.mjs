@@ -11,7 +11,7 @@ const getAppointments = z.object({
   year: z.string(),
 })
 
-const logger = new Logger({ serviceName: 'createAppointment' });
+const logger = new Logger({ serviceName: 'showAppointmentsByMonth' });
 const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {

@@ -53,7 +53,7 @@ describe('create', () => {
     const response = await handler(event);
     
     expect(response.statusCode).toBe(400);
-    expect(response.body).toStrictEqual('{"message":{"errors":[],"properties":{"userId":{"errors":["Invalid input: expected string, received undefined"]},"appointmentPayment":{"errors":["Too small: expected number to be >0"]}}}}');
+    expect(response.body).toBe('{"message":{"errors":[],"properties":{"userId":{"errors":["Invalid input: expected string, received undefined"]},"appointmentDate":{"errors":["Invalid string: must match pattern /^\\\\d{2}-\\\\d{2}-\\\\d{4}$/"]},"appointmentPayment":{"errors":["Too small: expected number to be >0"]}}}}');
   });
 
 });

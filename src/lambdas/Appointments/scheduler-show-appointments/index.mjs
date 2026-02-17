@@ -10,7 +10,7 @@ const getAppointments = z.object({
   appointmentDate: z.string(),
 })
 
-const logger = new Logger({ serviceName: 'createAppointment' });
+const logger = new Logger({ serviceName: 'showAppointments' });
 const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {

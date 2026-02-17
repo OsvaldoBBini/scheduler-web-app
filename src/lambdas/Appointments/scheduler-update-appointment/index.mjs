@@ -74,7 +74,6 @@ export async function handler(event) {
       });
     
       await clients.dynamoClient.send(deleteDynamoCommand);
-
     }
 
     return {
