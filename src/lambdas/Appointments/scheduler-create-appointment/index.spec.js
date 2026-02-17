@@ -1,6 +1,5 @@
 import { expect, it, describe, beforeEach } from 'vitest'
 import { handler } from './index.mjs';
-import { generateRandomNumber } from '../../../../tests/utils/generateRandomNumber.mjs';
 import { mockClient } from "aws-sdk-client-mock";
 import { clients } from '../../../lib/Clients.mjs';
 
@@ -14,14 +13,10 @@ describe('create', () => {
 
   it('Should be able to create an appointment', async () => {
 
-    const randomDay = generateRandomNumber(1,12);
-    const randomMonth = generateRandomNumber(1,31);
-    const randomYear = generateRandomNumber(2024, 2040);
-
     const event = {
       body: JSON.stringify({
       userId: '1',
-      appointmentDate: `${randomDay}-${randomMonth}-${randomYear}`,
+      appointmentDate: '01-01-2025',
       name: 'Osvaldo Bazzan',
       contact: '9999999999', 
       startsAt: '14:00',
