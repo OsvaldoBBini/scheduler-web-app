@@ -5,7 +5,7 @@ service: apps
 provider:
   name: aws
   region: us-east-1
-  runtime: nodejs20.x
+  runtime: nodejs24.x
   iam:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
   environment:
@@ -21,8 +21,7 @@ provider:
           - !Ref SAUserPoolClient
     cors: 
       allowedOrigins:
-        - http://localhost:5173
-        - https://dzzytol1hhaht.cloudfront.net
+        - ${opt:origin}
       allowedHeaders:
         - Content-Type
         - Authorization
@@ -168,6 +167,19 @@ functions:
     events:
       - httpApi:
           path: /appointments/{userId}/{appointmentDate}
+          method: GET
+          authorizer: 
+            name: CognitoAuthorizer
+
+  scheduler-show-appointments-by-month:
+    handler: src/lambdas/Appointments/scheduler-show-appointments-by-month/index.handler
+    package:
+      patterns:
+        - 'src/lambdas/Appointments/scheduler-show-appointments-by-month/index.mjs'
+        
+    events:
+      - httpApi:
+          path: /appointments/{userId}/month/{month}/year/{year}
           method: GET
           authorizer: 
             name: CognitoAuthorizer
