@@ -11,7 +11,7 @@ const createAppointmentTypePathParams = z.object({
 
 const createAppointmentTypeSchema = z.object({
   appointmentTypeName: z.string(),
-  appointmentTypePrice: z.number().positive(),
+  appointmentTypePrice: z.string(),
 });
 
 const logger = new Logger({ serviceName: 'createAppointmentType' });

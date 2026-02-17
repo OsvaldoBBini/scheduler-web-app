@@ -18,7 +18,7 @@ const updateAppointmentBodySchema = z.object({
   startsAt: z.string(),
   endsAt: z.string(),
   appointmentType: z.string(),
-  appointmentPayment: z.number().positive(), 
+  appointmentPayment: z.string(), 
 })
 
 const logger = new Logger({ serviceName: 'updateAppointment' });

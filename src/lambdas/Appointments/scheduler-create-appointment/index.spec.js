@@ -22,7 +22,7 @@ describe('create', () => {
       startsAt: '14:00',
       endsAt: '15:00',
       appointmentType: 'Curso',
-      appointmentPayment: 50
+      appointmentPayment: "50"
     })};
 
     const { statusCode, body } = await handler(event);
@@ -41,14 +41,14 @@ describe('create', () => {
         startsAt: '10:00',
         endsAt: '11:00',
         appointmentType: 'Test',
-        appointmentPayment: -5
+        appointmentPayment: "-5"
       })
     };
 
     const response = await handler(event);
     
     expect(response.statusCode).toBe(400);
-    expect(response.body).toBe('{"message":{"errors":[],"properties":{"userId":{"errors":["Invalid input: expected string, received undefined"]},"appointmentDate":{"errors":["Invalid string: must match pattern /^\\\\d{2}-\\\\d{2}-\\\\d{4}$/"]},"appointmentPayment":{"errors":["Too small: expected number to be >0"]}}}}');
+    expect(response.body).toBe('{"message":{"errors":[],"properties":{"userId":{"errors":["Invalid input: expected string, received undefined"]},"appointmentDate":{"errors":["Invalid string: must match pattern /^\\\\d{2}-\\\\d{2}-\\\\d{4}$/"]}}}}');
   });
 
 });

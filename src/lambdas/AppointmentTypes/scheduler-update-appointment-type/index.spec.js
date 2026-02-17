@@ -19,7 +19,7 @@ describe('update AT', () => {
         PK: 'USER#1',
         SK: 'TYPE#0000001',
         appointmentTypeName: 'Social',
-        appointmentTypePrice: 130
+        appointmentTypePrice: "130"
       }
     });
 
@@ -28,7 +28,7 @@ describe('update AT', () => {
       queryStringParameters: { appointmentTypeId: '0000001'},
       body: JSON.stringify({
         appointmentTypeName: 'Social',
-        appointmentTypePrice: 130
+        appointmentTypePrice: "130"
     })};
 
     const { statusCode, body } = await handler(event);
@@ -46,24 +46,6 @@ describe('update AT', () => {
       queryStringParameters: { appointmentTypeId: '0000001'},
       body: JSON.stringify({
         appointmentTypeName: 'Social'
-    })};
-
-    const response = await handler(event);
-
-    expect(response.statusCode).toBe(400);
-    expect(response.body).toBeDefined();
-  });
-
-  it('Should return 400 when appointmentTypePrice is not positive', async () => {
-
-    ddbMock.on(UpdateCommand).resolves({});
-
-    const event = {
-      pathParameters: { userId: '1' },
-      queryStringParameters: { appointmentTypeId: '0000001'},
-      body: JSON.stringify({
-        appointmentTypeName: 'Social',
-        appointmentTypePrice: -50
     })};
 
     const response = await handler(event);

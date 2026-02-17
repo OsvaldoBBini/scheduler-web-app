@@ -19,7 +19,7 @@ const event = {
       startsAt: '09:00',
       endsAt: '10:00',
       appointmentType: 'Consultation',
-      appointmentPayment: 150
+      appointmentPayment: "150"
     })
   };
 

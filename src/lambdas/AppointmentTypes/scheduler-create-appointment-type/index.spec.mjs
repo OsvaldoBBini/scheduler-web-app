@@ -17,7 +17,7 @@ describe('create AT', () => {
       pathParameters: { userId: '1' },
       body: JSON.stringify({
         appointmentTypeName: 'Curso',
-        appointmentTypePrice: 900
+        appointmentTypePrice: "900"
     })};
 
     const { statusCode, body } = await handler(event);
@@ -33,21 +33,6 @@ describe('create AT', () => {
       pathParameters: { userId: '1' },
       body: JSON.stringify({
         appointmentTypeName: 'Curso'
-    })};
-
-    const response = await handler(event);
-
-    expect(response.statusCode).toBe(400);
-    expect(response.body).toBeDefined();
-  });
-
-  it('Should return 400 when appointmentTypePrice is not positive', async () => {
-
-    const event = {
-      pathParameters: { userId: '1' },
-      body: JSON.stringify({
-        appointmentTypeName: 'Curso',
-        appointmentTypePrice: -50
     })};
 
     const response = await handler(event);
