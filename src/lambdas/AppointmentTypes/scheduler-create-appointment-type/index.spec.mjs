@@ -1,7 +1,15 @@
-import { expect, it, describe } from 'vitest'
+import { expect, it, describe, beforeEach } from 'vitest'
 import { handler } from './index.mjs';
+import { mockClient } from 'aws-sdk-client-mock';
+import { clients } from '../../../lib/Clients.mjs';
+
+const ddbMock = mockClient(clients.dynamoClient);
 
 describe('create AT', () => {
+
+  beforeEach(() => {
+    ddbMock.reset();
+  });
 
   it('Should be able to create an appointmenttype', async () => {
 
@@ -12,12 +20,14 @@ describe('create AT', () => {
         appointmentTypePrice: 900
     })};
 
-    const { statusCode } = await handler(event);
+    const { statusCode, body } = await handler(event);
 
-    expect(statusCode).toBe(204);
+    expect(statusCode).toBe(201);
+    expect(body).toBeDefined();
+    expect(JSON.parse(body).appointmentTypeId).toBeDefined();
   });
 
-  it('Should not be able to create an appointment type with missing props', async () => {
+  it('Should return 400 when payload has missing props', async () => {
 
     const event = {
       pathParameters: { userId: '1' },
@@ -25,10 +35,25 @@ describe('create AT', () => {
         appointmentTypeName: 'Curso'
     })};
 
-    const { body } = await handler(event);
-    const { error } = JSON.parse(body)
+    const response = await handler(event);
 
-    expect(error).toBe('Some fields are missing');
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toBeDefined();
+  });
+
+  it('Should return 400 when appointmentTypePrice is not positive', async () => {
+
+    const event = {
+      pathParameters: { userId: '1' },
+      body: JSON.stringify({
+        appointmentTypeName: 'Curso',
+        appointmentTypePrice: -50
+    })};
+
+    const response = await handler(event);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toBeDefined();
   });
 
 });

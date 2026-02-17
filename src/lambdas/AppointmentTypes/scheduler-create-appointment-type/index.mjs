@@ -1,27 +1,33 @@
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { randomUUID } from 'node:crypto';
-import { clients } from '../../../lib/Clients.mjs'
+import { clients } from '../../../lib/Clients.mjs';
+import { Logger } from '@aws-lambda-powertools/logger';
+import { ErrorManager } from '../../../errors/errorManager.mjs';
+import z from 'zod';
+
+const createAppointmentTypePathParams = z.object({
+  userId: z.string()
+});
+
+const createAppointmentTypeSchema = z.object({
+  appointmentTypeName: z.string(),
+  appointmentTypePrice: z.number().positive(),
+});
+
+const logger = new Logger({ serviceName: 'createAppointmentType' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
 
-  const { userId } = event.pathParameters;
-  const pk = `USER#${userId}`;
-
-  const { 
-    appointmentTypeName,
-    appointmentTypePrice
-  } = JSON.parse(event.body);
-
-  if ([appointmentTypeName, appointmentTypePrice].includes(undefined)) {
-    return {
-      statusCode: 404,
-      body: JSON.stringify({
-        error: 'Some fields are missing'
-      }),
-    };
-  };
-
   try {
+    const { userId } = createAppointmentTypePathParams.parse(event.pathParameters);
+    const pk = `USER#${userId}`;
+
+    const { 
+      appointmentTypeName,
+      appointmentTypePrice
+    } = createAppointmentTypeSchema.parse(JSON.parse(event.body));
+
     const appointmentTypeId = randomUUID();
 
     const putDynamoCommand = new PutCommand({
@@ -37,18 +43,12 @@ export async function handler(event) {
     await clients.dynamoClient.send(putDynamoCommand);
     
     return {
-      statusCode: 204,
-      body: null,
+      statusCode: 201,
+      body: JSON.stringify({ appointmentTypeId }),
     };
     
   } catch (error) {
-    console.log({
-      user: userId,
-      data: new Date(),
-      message: error.message,
-      name: error.name,
-      instanceType: error.constructor.name
-    });
+    return errorHandler(error);
   }
 
 }
