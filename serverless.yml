@@ -21,7 +21,7 @@ provider:
           - !Ref SAUserPoolClient
     cors: 
       allowedOrigins:
-        - ${opt:origin}
+        - ${env:ALLOWED_ORIGIN}
       allowedHeaders:
         - Content-Type
         - Authorization
