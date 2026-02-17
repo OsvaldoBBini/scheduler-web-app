@@ -5,7 +5,7 @@ service: apps
 provider:
   name: aws
   region: us-east-1
-  runtime: nodejs24.x
+  runtime: nodejs20.x
   iam:
       role: arn:aws:iam::${aws:accountId}:role/SchedulerRoleLambda
   environment:
