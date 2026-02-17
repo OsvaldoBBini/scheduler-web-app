@@ -1,10 +1,21 @@
 import { clients } from '../../../lib/Clients.mjs'
-import { CodeMismatchException, ConfirmSignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { ConfirmSignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { Logger } from '@aws-lambda-powertools/logger';
+import { ErrorManager } from '../../../errors/errorManager.mjs';
+import z from 'zod';
+
+const accountConfirmationSchema = z.object({
+  email: z.email(),
+  confirmationCode: z.string().length(6)
+});
+
+const logger = new Logger({ serviceName: 'accountConfirmation' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
 
   try {
-    const { email, confirmationCode } = JSON.parse(event.body);
+    const { email, confirmationCode } = accountConfirmationSchema.parse(JSON.parse(event.body));
 
     const command = new ConfirmSignUpCommand({
       ClientId: process.env.COGNITO_CLIENT_ID,
@@ -19,19 +30,8 @@ export async function handler(event) {
     };
 
   } catch (error) {
-
-    if (error instanceof CodeMismatchException) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({'error': 'O código enviado não é válido'})
-      }
-    }
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({error: 'Internal Server Error'})
-    }
-  
-  };
+    const errorResponse = errorHandler(error);
+    return errorResponse;
+  }
 
 }

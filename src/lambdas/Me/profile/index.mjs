@@ -1,5 +1,10 @@
 import { AdminGetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { clients } from '../../../lib/Clients.mjs'
+import { Logger } from '@aws-lambda-powertools/logger';
+import { ErrorManager } from '../../../errors/errorManager.mjs';
+
+const logger = new Logger({ serviceName: 'getProfile' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
 
@@ -24,11 +29,8 @@ export async function handler(event) {
       body: JSON.stringify(attributes),
     }
 
-  } catch {
-    
-    return {
-      statusCode: 500,
-      body: JSON.stringify({'error': 'Internal server error'}),
-    }
+  } catch (error) {
+    const errorResponse = errorHandler(error);
+    return errorResponse;
   }
 }

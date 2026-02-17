@@ -1,17 +1,20 @@
 import { clients } from '../../../lib/Clients.mjs'
 import { InitiateAuthCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { Logger } from '@aws-lambda-powertools/logger';
+import { ErrorManager } from '../../../errors/errorManager.mjs';
+import z from 'zod';
+
+const refreshTokenSchema = z.object({
+  refreshToken: z.string()
+});
+
+const logger = new Logger({ serviceName: 'refreshToken' });
+const { errorHandler } = new ErrorManager(logger);
 
 export async function handler(event) {
 
   try {
-    const { refreshToken } = JSON.parse(event.body);
-
-    if (!refreshToken) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({error: 'Some fields were not filled in correctly'})
-      }
-    }
+    const { refreshToken } = refreshTokenSchema.parse(JSON.parse(event.body));
 
     const command = new InitiateAuthCommand({
       ClientId: process.env.COGNITO_CLIENT_ID,
@@ -26,7 +29,7 @@ export async function handler(event) {
     if (!AuthenticationResult) {
       return {
         statusCode: 401,
-        body: JSON.parse({error: 'Invalid Credentials.'})
+        body: JSON.stringify({error: 'Invalid Credentials.'})
       }
     }
     
@@ -37,11 +40,9 @@ export async function handler(event) {
       }),
     };
 
-  } catch {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({error: 'Internal Server Error'})
-    }
-  };
+  } catch (error) {
+    const errorResponse = errorHandler(error);
+    return errorResponse;
+  }
 
 }
