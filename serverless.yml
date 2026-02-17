@@ -33,29 +33,30 @@ provider:
         - OPTIONS
       allowCredentials: true
 
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    external:
+      - '@aws-sdk/*'
+
 package:
   individually: true
   patterns:
     - '!tests/**'
-    - '!@aws-sdk'
     - '!.github/**'
     - '!.gitignore'
     - '!eslint.config.mjs'
     - '!package.json'
     - '!vitest.config.js'
     - '!yarn.lock'
-    - '!node_modules/**'
-    - '!src/lambdas/**'
+
 
 functions:
 
   # Authentication
   scheduler-sign-up-service:
     handler: src/lambdas/Auth/signUp/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/signUp/index.mjs'
-
     events:
       - httpApi:
           path: /auth/signup
@@ -63,10 +64,6 @@ functions:
   
   scheduler-sign-in-service:
     handler: src/lambdas/Auth/signIn/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/signIn/index.mjs'
-
     events:
       - httpApi:
           path: /auth/signin
@@ -74,10 +71,6 @@ functions:
   
   scheduler-refresh-token-service:
     handler: src/lambdas/Auth/refreshToken/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/refreshToken/index.mjs'
-
     events:
       - httpApi:
           path: /auth/refresh
@@ -85,10 +78,6 @@ functions:
   
   scheduler-confirmation-account-service:
     handler: src/lambdas/Auth/accountConfirmation/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/accountConfirmation/index.mjs'
-
     events:
       - httpApi:
           path: /auth/confirmation
@@ -96,10 +85,6 @@ functions:
   
   scheduler-reset-password-service:
     handler: src/lambdas/Auth/resetPassword/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/resetPassword/index.mjs'
-
     events:
       - httpApi:
           path: /auth/reset-password
@@ -107,10 +92,6 @@ functions:
   
   scheduler-forgot-password-service:
     handler: src/lambdas/Auth/forgotPassword/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/forgotPassword/index.mjs'
-
     events:
       - httpApi:
           path: /auth/forgot
@@ -119,10 +100,6 @@ functions:
   # custom message
   scheduler-cognito-custom-message:
     handler: src/lambdas/Auth/cognitoCustomMessage/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Auth/cognitoCustomMessage/index.mjs'
-
     events:
       - cognitoUserPool:
           pool: SAUserPool
@@ -133,10 +110,6 @@ functions:
   # Profile
   scheduler-profile-info:
     handler: src/lambdas/Me/profile/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Me/profile/index.mjs'
-
     events:
       - httpApi:
           path: /profile
@@ -147,10 +120,6 @@ functions:
   # Appointments
   scheduler-create-appointment:
     handler: src/lambdas/Appointments/scheduler-create-appointment/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Appointments/scheduler-create-appointment/index.mjs'
-
     events:
       - httpApi:
           path: /appointments
@@ -160,10 +129,6 @@ functions:
 
   scheduler-show-appointments:
     handler: src/lambdas/Appointments/scheduler-show-appointments/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Appointments/scheduler-show-appointments/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments/{userId}/{appointmentDate}
@@ -173,10 +138,6 @@ functions:
 
   scheduler-show-appointments-by-month:
     handler: src/lambdas/Appointments/scheduler-show-appointments-by-month/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Appointments/scheduler-show-appointments-by-month/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments/{userId}/month/{month}/year/{year}
@@ -186,10 +147,6 @@ functions:
   
   scheduler-delete-appointment:
     handler: src/lambdas/Appointments/scheduler-delete-appointment/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Appointments/scheduler-delete-appointment/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments
@@ -199,10 +156,6 @@ functions:
 
   scheduler-update-appointment:
     handler: src/lambdas/Appointments/scheduler-update-appointment/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/Appointments/scheduler-update-appointment/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments/{userId}/{appointmentDate}
@@ -213,10 +166,6 @@ functions:
   # Appointments-type
   scheduler-create-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-create-appointment-type/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/AppointmentTypes/scheduler-create-appointment-type/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments_type/{userId}
@@ -226,10 +175,6 @@ functions:
   
   scheduler-show-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-show-appointment-type/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/AppointmentTypes/scheduler-show-appointment-type/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments_type/{userId}
@@ -239,10 +184,6 @@ functions:
   
   scheduler-delete-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-delete-appointment-type/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/AppointmentTypes/scheduler-delete-appointment-type/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments_type/{userId}
@@ -252,10 +193,6 @@ functions:
   
   scheduler-update-appointment-type:
     handler: src/lambdas/AppointmentTypes/scheduler-update-appointment-type/index.handler
-    package:
-      patterns:
-        - 'src/lambdas/AppointmentTypes/scheduler-update-appointment-type/index.mjs'
-        
     events:
       - httpApi:
           path: /appointments_type/{userId}
