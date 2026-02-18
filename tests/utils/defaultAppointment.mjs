@@ -1,6 +1,6 @@
 export function defaultAppointment(...props) {
   return {
-    PK: 'DATE#01-01-2026#USER#user-id',
+    PK: 'DATE#01-01-2026USER#user-id',
     SK: 'APPO#random-id',
     GSI1PK: 'APPOINTMENT#USER#user-id',
     GSI1SK: 'MONTH#01#YEAR#2026',

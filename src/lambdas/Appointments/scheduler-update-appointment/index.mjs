@@ -44,7 +44,8 @@ export async function handler(event) {
 
     const month = newAppointmentDate !== appointmentDate ? newAppointmentDate.split('-')[1] : appointmentDate.split('-')[1];
     const year = newAppointmentDate !== appointmentDate ? newAppointmentDate.split('-')[2] : appointmentDate.split('-')[2];
-    const gsi1sk = `MONTH#${month}#YEAR#${year}`;
+    
+    const gsi1sk = `MONTH#${month}YEAR#${year}`;
     
     const putDynamoCommand = new PutCommand({
         TableName: 'SAppointmentsTable',

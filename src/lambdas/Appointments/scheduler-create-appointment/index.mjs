@@ -32,13 +32,13 @@ export async function handler(event) {
       appointmentType,
       appointmentPayment } = createAppointmentSchema.parse(JSON.parse(event.body));
     
-    const pk = `DATE#${appointmentDate}#USER#${userId}`;
+    const pk = `DATE#${appointmentDate}USER#${userId}`;
     const sk = `APPO#${randomUUID()}`;
 
     const month = appointmentDate.split('-')[1];
     const year = appointmentDate.split('-')[2];
 
-    const gsi1sk = `MONTH#${month}#YEAR#${year}`;
+    const gsi1sk = `MONTH#${month}YEAR#${year}`;
     
     const putDynamoCommand = new PutCommand({
       TableName: 'SAppointmentsTable',
@@ -61,7 +61,7 @@ export async function handler(event) {
     
     return {
       statusCode: 201,
-      body: { appointmentId: sk },
+      body: JSON.stringify({ appointmentId: sk }),
     };
 
   } catch (e) {

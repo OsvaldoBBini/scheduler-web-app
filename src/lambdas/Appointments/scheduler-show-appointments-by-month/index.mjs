@@ -20,7 +20,7 @@ export async function handler(event) {
     const { userId, month, year } = getAppointments.parse(event.pathParameters);
 
     const gsi1pk = `APPOINTMENT#USERID#${userId}`;
-    const gsi1sk = `MONTH#${month}#YEAR#${year}`;
+    const gsi1sk = `MONTH#${month}YEAR#${year}`;
 
     const getDynamoCommand = new QueryCommand({
       TableName: "SAppointmentsTable",

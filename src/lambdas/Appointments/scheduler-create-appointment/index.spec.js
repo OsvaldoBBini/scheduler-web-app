@@ -28,7 +28,7 @@ describe('create', () => {
     const { statusCode, body } = await handler(event);
 
     expect(statusCode).toBe(201);
-    expect(body.appointmentId).toBeDefined();
+    expect(JSON.parse(body).appointmentId).toBeDefined();
   });
 
   it('Should return 400 when payload is invalid', async () => {
