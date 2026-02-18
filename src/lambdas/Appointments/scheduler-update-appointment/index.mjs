@@ -79,7 +79,7 @@ export async function handler(event) {
 
     return {
       statusCode: 201,
-      body: { appointmentId: sk },
+      body: JSON.stringify({ appointmentId: sk }),
     };
     
   } catch (e) {
