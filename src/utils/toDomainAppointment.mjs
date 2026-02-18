@@ -9,7 +9,7 @@ export function toDomainAppointment(appointment) {
       appointmentId: appointment.SK.split('#')[2],
       name: appointment.name,
       contact: appointment.contact,
-      startAt: appointment.startAt,
+      startsAt: appointment.startsAt,
       endsAt: appointment.endsAt,
       appointmentType: appointment.appointmentType,
       appointmentPayment: appointment.appointmentPayment,
