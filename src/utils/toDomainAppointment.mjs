@@ -6,7 +6,7 @@ export function toDomainAppointment(appointment) {
     return {
       userId: userId,
       appointmentDate: appointmentDate,
-      appointmentId: appointment.SK.split('#')[2],
+      appointmentId: appointment.SK.split('#')[1],
       name: appointment.name,
       contact: appointment.contact,
       startsAt: appointment.startsAt,
