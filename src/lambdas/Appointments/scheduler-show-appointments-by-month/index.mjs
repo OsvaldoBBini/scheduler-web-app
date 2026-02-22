@@ -19,7 +19,7 @@ export async function handler(event) {
   try {
     const { userId, month, year } = getAppointments.parse(event.pathParameters);
 
-    const gsi1pk = `APPOINTMENT#USERID#${userId}`;
+    const gsi1pk = `APPOINTMENT#USER#${userId}`;
     const gsi1sk = `MONTH#${month}YEAR#${year}`;
 
     const getDynamoCommand = new QueryCommand({
