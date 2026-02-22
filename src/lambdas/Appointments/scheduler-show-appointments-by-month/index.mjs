@@ -42,7 +42,7 @@ export async function handler(event) {
     const toDomainAppointments = items && items.map(toDomainAppointment);
 
     return {
-      statusCode: 201,
+      statusCode: 200,
       body: JSON.stringify(toDomainAppointments),
     };
     
