@@ -52,6 +52,7 @@ export async function handler(event) {
         Item: {
           PK:  pk,
           SK: sk,
+          GSI1PK: `APPOINTMENT#USER#${userId}`,
           GSI1SK: gsi1sk,
           name: name,
           contact: contact,
